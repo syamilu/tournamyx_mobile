@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/utils/theme/color_schemes.g.dart';
 import 'package:tournamyx_mobile/components/shared/loading_screen.dart';
 import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
+import 'package:tournamyx_mobile/features/auth/screen/login.dart';
+import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -36,18 +38,47 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 2)),
-        builder: (context, snapshot) =>
-            snapshot.connectionState == ConnectionState.done
-                ? const MyxBottomNavbar()
-                : const LoadingScreen(),
+      home: Scaffold(
+        body: Center(
+          child: Builder(
+            builder: (context) => Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/login');
+                  },
+                  child: const Text('Login'),
+                ),
+                const SizedBox(height: 10),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const MyxBottomNavbar()),
+                    );
+                  },
+                  child: const Text('User Page'),
+                ),
+              ],
+            ),
+          ),
+        ),
       ),
-      // routes: {
-      //   '/welcome': (context) => const WelcomeScreen(),
-      //   '/register': (context) => const RegisterScreen(),
-      //   '/login': (context) => const LoginScreen(),
-      // },
+      // FutureBuilder(
+      //   future: Future.delayed(const Duration(seconds: 0)),
+      //   builder: (context, snapshot) =>
+      //       snapshot.connectionState == ConnectionState.done
+      //           ? const MyxBottomNavbar()
+      //           : const LoadingScreen(),
+      // ),
+      routes: {
+        //   '/welcome': (context) => const WelcomeScreen(),
+        //   '/register': (context) => const RegisterScreen(),
+        '/login': (context) => LoginScreen(),
+        '/favourite': (context) => const FavouriteScreen(),
+      },
     );
   }
 }
