@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/utils/theme/color_schemes.g.dart';
+import 'package:tournamyx_mobile/components/shared/loading_screen.dart';
+import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -34,51 +36,18 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: const MyHomePage(),
+      home: FutureBuilder(
+        future: Future.delayed(const Duration(seconds: 2)),
+        builder: (context, snapshot) =>
+            snapshot.connectionState == ConnectionState.done
+                ? const MyxBottomNavbar()
+                : const LoadingScreen(),
+      ),
       // routes: {
       //   '/welcome': (context) => const WelcomeScreen(),
       //   '/register': (context) => const RegisterScreen(),
       //   '/login': (context) => const LoginScreen(),
       // },
-    );
-  }
-}
-
-class MyHomePage extends StatelessWidget {
-  const MyHomePage({super.key});
-
-//this is initial only
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: const Text('TournamyxTest'),
-      ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/welcome');
-              },
-              child: const Text('Welcome'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/register');
-              },
-              child: const Text('Register'),
-            ),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.pushNamed(context, '/login');
-              },
-              child: const Text('Login'),
-            ),
-          ],
-        ),
-      ),
     );
   }
 }
