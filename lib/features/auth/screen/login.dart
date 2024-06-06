@@ -31,6 +31,11 @@ class LoginScreen extends StatelessWidget {
               },
               child: Text('Login'),
             ),
+            TextButton(
+                onPressed: () {
+                  Navigator.pushNamed(context, '/register');
+                },
+                child: const Text('Create a new account')),
           ],
         ),
       ),
