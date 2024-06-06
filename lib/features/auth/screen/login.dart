@@ -46,6 +46,7 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
+
               Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.07),
