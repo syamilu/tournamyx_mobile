@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:flutter/rendering.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
-
-import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
+import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
 
@@ -102,3 +102,60 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
     );
   }
 }
+
+
+// //* My version of Bottom Nav Bar
+
+// class BottomAppBar extends StatefulWidget{
+//   const BottomAppBar({super.key});
+
+//   @override
+//   State createState() => _BottomAppBarState();
+// }
+
+// class _BottomAppBarState extends State <BottomAppBar> {
+//     int _selectedIndex = 0;
+//     bool _isVisible = true;
+//     ScrollController _scrollController = ScrollController();
+
+//     @override
+//     void initState() {
+//       super.initState();
+//       _scrollController.addListener((){
+//         if(_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
+//           if (_isVisible == true) {
+//             setState(() {
+//               _isVisible = false;
+//             });
+//           }
+//         } else {
+//           if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
+//             if (_isVisible == false) {
+//               setState(() {
+//                 _isVisible = true;
+//               });
+//             }
+//           }
+//         }
+//       });
+//     }
+    
+//     @override
+//     void dispose() {
+//       _scrollController.dispose();
+//       super.dispose();
+//     }
+
+//     void _onItemTapped(int index) {
+//       setState(() {
+//         _selectedIndex = index;
+//       });
+//     }
+
+//     final List<Widget> _pages = [
+//       HomePage(),
+//       TourScreen(),
+//       FavouriteScreen(),
+//       SettingsPage(),
+//     ]
+// }
