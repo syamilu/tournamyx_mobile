@@ -1,8 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:ionicons/ionicons.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
+
 import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
+import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
+
 
 //type or model for bottombar
 class BottomBarItem {
@@ -23,7 +27,7 @@ class BottomBarItem {
 
 //bottom navbar class
 class MyxBottomNavbar extends StatefulWidget {
-  const MyxBottomNavbar({Key? key}) : super(key: key);
+  const MyxBottomNavbar({super.key});
 
   @override
   _MyxBottomNavbarState createState() => _MyxBottomNavbarState();
@@ -40,6 +44,7 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
 
   final List<BottomBarItem> _bottomBarItems = [
     BottomBarItem(
+
       label: 'Home',
       icon: const Icon(Icons.home),
       iconOutline: const Icon(Icons.home_outlined),
@@ -50,12 +55,13 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       icon: const Icon(Icons.person),
       iconOutline: const Icon(Icons.person_outlined),
       screen: LoginScreen(),
+
     ),
     BottomBarItem(
-      label: 'Search',
-      icon: const Icon(Icons.search),
-      iconOutline: const Icon(Icons.search_outlined),
-      screen: FavouriteScreen(),
+      label: 'Favourite',
+      icon: const Icon(Ionicons.star),
+      iconOutline: const Icon(Ionicons.star_outline),
+      screen: const FavouriteScreen(),
     ),
   ];
 
@@ -68,7 +74,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       ),
       bottomNavigationBar: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
           boxShadow: [
             BoxShadow(
               color: Colors.grey.withOpacity(0.5),
@@ -79,6 +84,7 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
           ],
         ),
         child: BottomNavigationBar(
+          backgroundColor: TournamyxTheme.background,
           items: _bottomBarItems
               .map((e) => BottomNavigationBarItem(
                     icon: _selectedIndex == _bottomBarItems.indexOf(e)
@@ -88,7 +94,8 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
                   ))
               .toList(),
           currentIndex: _selectedIndex,
-          selectedItemColor: Colors.blue,
+          selectedItemColor: TournamyxTheme.primary,
+          unselectedItemColor: TournamyxTheme.primary.withOpacity(0.7),
           onTap: _onItemTapped,
         ),
       ),
