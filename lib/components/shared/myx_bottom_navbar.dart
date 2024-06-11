@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
+import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
 
 //type or model for bottombar
 class BottomBarItem {
@@ -39,9 +40,15 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
 
   final List<BottomBarItem> _bottomBarItems = [
     BottomBarItem(
-      label: 'Login',
+      label: 'Home',
       icon: const Icon(Icons.home),
       iconOutline: const Icon(Icons.home_outlined),
+      screen: const HomeScreen(),
+    ),
+    BottomBarItem(
+      label: 'Login',
+      icon: const Icon(Icons.person),
+      iconOutline: const Icon(Icons.person_outlined),
       screen: LoginScreen(),
     ),
     BottomBarItem(

@@ -38,7 +38,7 @@ class _MyAppState extends State<MyApp> {
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
       home: FutureBuilder(
-        future: Future.delayed(const Duration(seconds: 2)),
+        future: Future.delayed(const Duration(seconds: 0)),
         builder: (context, snapshot) =>
             snapshot.connectionState == ConnectionState.done
                 ? const MyxBottomNavbar()
