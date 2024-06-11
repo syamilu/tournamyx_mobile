@@ -40,6 +40,7 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
+
       home: Scaffold(
         body: Center(
           child: Builder(
