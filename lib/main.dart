@@ -5,6 +5,7 @@ import 'package:tournamyx_mobile/components/shared/loading_screen.dart';
 import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page.dart';
 
 void main() async {
   runApp(const MyApp());
@@ -63,6 +64,15 @@ class _MyAppState extends State<MyApp> {
                   },
                   child: const Text('User Page'),
                 ),
+                ElevatedButton(
+                  onPressed: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourScreen()),
+                      );
+                  }, 
+                  child: const Text('Tour Page'))
               ],
             ),
           ),
