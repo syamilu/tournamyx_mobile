@@ -3,10 +3,9 @@ import 'package:ionicons/ionicons.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 
-import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
+import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
-
 
 //type or model for bottombar
 class BottomBarItem {
@@ -44,7 +43,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
 
   final List<BottomBarItem> _bottomBarItems = [
     BottomBarItem(
-
       label: 'Home',
       icon: const Icon(Icons.home),
       iconOutline: const Icon(Icons.home_outlined),
@@ -55,7 +53,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       icon: const Icon(Icons.person),
       iconOutline: const Icon(Icons.person_outlined),
       screen: LoginScreen(),
-
     ),
     BottomBarItem(
       label: 'Favourite',
