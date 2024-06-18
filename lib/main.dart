@@ -1,3 +1,6 @@
+import 'dart:async';
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/features/auth/screen/register.dart';
 import 'package:tournamyx_mobile/utils/theme/color_schemes.g.dart';
@@ -6,8 +9,20 @@ import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/tour/page/tour_page.dart';
+import 'package:firebase_core/firebase_core.dart';
+import 'package:firebase_auth/firebase_auth.dart';
+import 'firebase_options.dart';
 
 void main() async {
+  try {
+    WidgetsFlutterBinding.ensureInitialized();
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.currentPlatform,
+    );
+  } catch (e) {
+    debugPrint('Error: $e');
+  }
+
   runApp(const MyApp());
 
   // runApp(
@@ -24,9 +39,27 @@ class MyApp extends StatefulWidget {
   State<MyApp> createState() => _MyAppState();
 }
 
-final navigatorKey = GlobalKey<NavigatorState>();
-
 class _MyAppState extends State<MyApp> {
+  late StreamSubscription<User?> _sub;
+  final navigatorKey = GlobalKey<NavigatorState>();
+
+  @override
+  void initState() {
+    super.initState();
+
+    _sub = FirebaseAuth.instance.userChanges().listen((user) {
+      if (user == null) {
+        navigatorKey.currentState!.pushNamed('/login');
+      }
+    });
+  }
+
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -65,14 +98,14 @@ class _MyAppState extends State<MyApp> {
                   child: const Text('User Page'),
                 ),
                 ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => const TourScreen()),
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                            builder: (context) => const TourScreen()),
                       );
-                  }, 
-                  child: const Text('Tour Page'))
+                    },
+                    child: const Text('Tour Page'))
               ],
             ),
           ),
@@ -87,7 +120,7 @@ class _MyAppState extends State<MyApp> {
       // ),
       routes: {
         //   '/welcome': (context) => const WelcomeScreen(),
-         '/register': (context) => const RegisterScreen(),
+        '/register': (context) => const RegisterScreen(),
         '/login': (context) => LoginScreen(),
         '/favourite': (context) => const FavouriteScreen(),
       },
