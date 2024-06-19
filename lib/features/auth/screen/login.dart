@@ -18,13 +18,10 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
-
   final emailController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
   Future<void> signUserIn() async {
-    //TODO: implement auth
     if (_formKey.currentState!.validate()) {
       try {
         final credential =
@@ -34,9 +31,11 @@ class _LoginScreenState extends State<LoginScreen> {
         );
         if (credential.user != null) {
           print('User signed in');
-          Navigator.push(
+          Navigator.pushAndRemoveUntil(
             context,
             MaterialPageRoute(builder: (context) => const MyxBottomNavbar()),
+            (Route<dynamic> route) =>
+                false, // This will remove all routes before pushing the new one
           );
         }
       } catch (e) {
@@ -139,8 +138,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             text: "Login",
                             onTap: () {
                               signUserIn();
-                              print(emailController.text);
-                              print(passwordController.text);
                             },
                           ),
                           const SizedBox(height: 20),

@@ -5,8 +5,8 @@ import 'package:flutter/rendering.dart';
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
-
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
+import 'package:tournamyx_mobile/features/settings/screen/settings.dart';
 
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
@@ -52,16 +52,16 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       screen: const HomeScreen(),
     ),
     BottomBarItem(
-      label: 'Login',
-      icon: const Icon(Icons.person),
-      iconOutline: const Icon(Icons.person_outlined),
-      screen: LoginScreen(),
-    ),
-    BottomBarItem(
       label: 'Favourite',
       icon: const Icon(Ionicons.star),
       iconOutline: const Icon(Ionicons.star_outline),
       screen: const FavouriteScreen(),
+    ),
+    BottomBarItem(
+      label: 'Settings',
+      icon: const Icon(Ionicons.settings),
+      iconOutline: const Icon(Ionicons.settings_outline),
+      screen: const SettingsScreen(),
     ),
   ];
 
@@ -84,7 +84,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: TournamyxTheme.background,
           items: _bottomBarItems
               .map((e) => BottomNavigationBarItem(
                     icon: _selectedIndex == _bottomBarItems.indexOf(e)

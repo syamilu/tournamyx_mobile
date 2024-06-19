@@ -52,18 +52,54 @@ const darkColorScheme = ColorScheme(
   errorContainer: Color(0xFF93000A),
   onError: Color(0xFF690005),
   onErrorContainer: Color(0xFFFFDAD6),
-  background: Color(0xFF1B1B1F),
+  background: Color(0xFF111827), //main background
   onBackground: Color(0xFFE4E1E6),
-  surface: Color(0xFF1B1B1F),
-  onSurface: Color(0xFFE4E1E6),
+  surface: Color(0xFF111827), // surface like deco appbar etc
+  onSurface:
+      Color(0xFFEC4899), //text on surface like appbar or box or decoration
   surfaceVariant: Color(0xFF46464F),
   onSurfaceVariant: Color(0xFFC7C5D0),
   outline: Color(0xFF90909A),
   onInverseSurface: Color(0xFF1B1B1F),
   inverseSurface: Color(0xFFE4E1E6),
   inversePrimary: Color(0xFF4C57A9),
-  shadow: Color(0xFF000000),
-  surfaceTint: Color(0xFFBCC3FF),
-  outlineVariant: Color(0xFF46464F),
+  shadow: Color(0xFF000000), // box shadow etc
+  surfaceTint: Color(0xFFBCC3FF), //surface tint
+  outlineVariant: Color(0xFF46464F), //box outline something like that
   scrim: Color(0xFF000000),
 );
+
+// Original dark scheme
+// const darkColorScheme = ColorScheme(
+//   brightness: Brightness.dark,
+//   primary: Color(0xFFBCC3FF),
+//   onPrimary: Color(0xFF1A2678),
+//   primaryContainer: Color(0xFF333F90),
+//   onPrimaryContainer: Color(0xFFDFE0FF),
+//   secondary: Color(0xFFFFB1C4),
+//   onSecondary: Color(0xFF66002D),
+//   secondaryContainer: Color(0xFF8F0043),
+//   onSecondaryContainer: Color(0xFFFFD9E0),
+//   tertiary: Color(0xFFE6BAD7),
+//   onTertiary: Color(0xFF45263D),
+//   tertiaryContainer: Color(0xFF5D3C54),
+//   onTertiaryContainer: Color(0xFFFFD7F0),
+//   error: Color(0xFFFFB4AB),
+//   errorContainer: Color(0xFF93000A),
+//   onError: Color(0xFF690005),
+//   onErrorContainer: Color(0xFFFFDAD6),
+//   background: Color(0xFF111827), //main background
+//   onBackground: Color(0xFFE4E1E6),
+//   surface: Color(0xFF1B1B1F),
+//   onSurface: Color(0xFFE4E1E6),
+//   surfaceVariant: Color(0xFF46464F),
+//   onSurfaceVariant: Color(0xFFC7C5D0),
+//   outline: Color(0xFF90909A),
+//   onInverseSurface: Color(0xFF1B1B1F),
+//   inverseSurface: Color(0xFFE4E1E6),
+//   inversePrimary: Color(0xFF4C57A9),
+//   shadow: Color(0xFF000000),
+//   surfaceTint: Color(0xFFBCC3FF),
+//   outlineVariant: Color(0xFF46464F), //box outline something like that
+//   scrim: Color(0xFF000000),
+// );

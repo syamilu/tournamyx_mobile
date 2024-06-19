@@ -43,22 +43,22 @@ class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> _sub;
   final navigatorKey = GlobalKey<NavigatorState>();
 
+  //for checking whether user already sign in or not
   @override
   void initState() {
     super.initState();
-
-    _sub = FirebaseAuth.instance.userChanges().listen((user) {
-      if (user == null) {
-        navigatorKey.currentState!.pushNamed('/login');
+    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+      if (user != null) {
+        print("User already signed in : ${user.uid}");
       }
     });
   }
 
-  @override
-  void dispose() {
-    _sub.cancel();
-    super.dispose();
-  }
+  // @override
+  // void dispose() {
+  //   _sub.cancel();
+  //   super.dispose();
+  // }
 
   @override
   Widget build(BuildContext context) {
@@ -69,7 +69,7 @@ class _MyAppState extends State<MyApp> {
       theme: ThemeData(
         useMaterial3: true,
         fontFamily: 'Poppins',
-        colorScheme: lightColorScheme,
+        colorScheme: darkColorScheme,
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
