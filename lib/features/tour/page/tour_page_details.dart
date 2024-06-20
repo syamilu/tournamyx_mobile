@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-
+import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
 
 class TourPageDetails extends StatelessWidget {
   const TourPageDetails({super.key});
@@ -8,14 +8,16 @@ class TourPageDetails extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        flexibleSpace: const SafeArea(
-          child: Column(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text('Primary'),
-              Text('Secondary'),
-            ],),
-        ),
+        title: const Text("Tournamyx"),
+        centerTitle: true,
+      ),
+      body: const Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+            CategoriesDialog(),
+          ],
+        )
       ),
     );
   }
