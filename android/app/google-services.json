@@ -1,0 +1,46 @@
+{
+  "project_info": {
+    "project_number": "447817294529",
+    "project_id": "tournamyx-mobile",
+    "storage_bucket": "tournamyx-mobile.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:447817294529:android:6a0c511a07fbe70b6b6a40",
+        "android_client_info": {
+          "package_name": "com.example.tournamyx_mobile"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "447817294529-fl1gp7mbrmjge53m6u5iqe9h16q6svri.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBaYSvlmE3T2nZbA9TcQ3WSqx574E9GNcU"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "447817294529-fl1gp7mbrmjge53m6u5iqe9h16q6svri.apps.googleusercontent.com",
+              "client_type": 3
+            },
+            {
+              "client_id": "447817294529-q8rhihjuupbqgfbogm4hvqackfeteoj4.apps.googleusercontent.com",
+              "client_type": 2,
+              "ios_info": {
+                "bundle_id": "com.example.tournamyxMobile"
+              }
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

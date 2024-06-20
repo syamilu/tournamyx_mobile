@@ -8,19 +8,15 @@ class FavouriteScreen extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        backgroundColor: TournamyxTheme.background,
         appBar: AppBar(
-          backgroundColor: TournamyxTheme.background,
           actionsIconTheme: const IconThemeData(color: TournamyxTheme.primary),
           iconTheme: const IconThemeData(color: TournamyxTheme.primary),
           title: const Row(
             mainAxisAlignment: MainAxisAlignment.spaceEvenly,
             children: [
               Text('Team Name',
-                  style: TextStyle(
-                      fontSize: 20,
-                      fontWeight: FontWeight.bold,
-                      color: TournamyxTheme.primary)),
+                  style:
+                      TextStyle(fontSize: 20, color: TournamyxTheme.primary)),
               SizedBox(width: 10),
               Column(
                 children: [
@@ -60,8 +56,6 @@ class FavouriteScreen extends StatelessWidget {
                             'Upcoming Match',
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.green,
                             ),
                           ),
                         ),
@@ -70,10 +64,8 @@ class FavouriteScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: TournamyxTheme.background,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey,
                               blurRadius: 0.7,
                               spreadRadius: 0.1,
                               offset: Offset(0.0, 0.0),
@@ -88,24 +80,18 @@ class FavouriteScreen extends StatelessWidget {
                               'Team 1 Name',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
                               'VS',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
                               'Team 2 Name',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                           ],
@@ -121,8 +107,6 @@ class FavouriteScreen extends StatelessWidget {
                             'Past Match [Draw]',
                             style: TextStyle(
                               fontSize: 14,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.yellow,
                             ),
                           ),
                         ),
@@ -131,10 +115,8 @@ class FavouriteScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: TournamyxTheme.background,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey,
                               blurRadius: 0.7,
                               spreadRadius: 0.1,
                               offset: Offset(0.0, 0.0),
@@ -149,24 +131,18 @@ class FavouriteScreen extends StatelessWidget {
                               'Team 1 Name',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
                               '0',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
                               'VS',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
@@ -174,15 +150,12 @@ class FavouriteScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                             Text(
                               'Team 2 Name',
                               style: TextStyle(
                                 fontSize: 14,
-                                fontWeight: FontWeight.bold,
-                                color: TournamyxTheme.primary,
                               ),
                             ),
                           ],
@@ -200,13 +173,11 @@ class FavouriteScreen extends StatelessWidget {
                               style: TextStyle(
                                 fontSize: 14,
                                 fontWeight: FontWeight.bold,
-                                color: Colors.white,
                               ),
                             ),
                             SizedBox(width: 5),
                             Icon(
                               Ionicons.arrow_forward,
-                              color: Colors.white,
                               size: 15,
                             ),
                           ],
@@ -218,10 +189,8 @@ class FavouriteScreen extends StatelessWidget {
                         padding: const EdgeInsets.all(20),
                         margin: const EdgeInsets.all(10),
                         decoration: BoxDecoration(
-                          color: TournamyxTheme.background,
                           boxShadow: [
                             BoxShadow(
-                              color: Colors.grey,
                               blurRadius: 0.7,
                               spreadRadius: 0.1,
                               offset: Offset(0.0, 0.0),
@@ -239,7 +208,6 @@ class FavouriteScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                                 Text(
@@ -247,7 +215,6 @@ class FavouriteScreen extends StatelessWidget {
                                   style: TextStyle(
                                     fontSize: 14,
                                     fontWeight: FontWeight.bold,
-                                    color: Colors.white,
                                   ),
                                 ),
                               ],
@@ -260,16 +227,12 @@ class FavouriteScreen extends StatelessWidget {
                                   '1. Team 1 Name',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                                 Text(
                                   '100',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                               ],
@@ -282,16 +245,12 @@ class FavouriteScreen extends StatelessWidget {
                                   '2. Team 2 Name',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                                 Text(
                                   '90',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                               ],
@@ -304,16 +263,12 @@ class FavouriteScreen extends StatelessWidget {
                                   '3. Team 3 Name',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                                 Text(
                                   '80',
                                   style: TextStyle(
                                     fontSize: 14,
-                                    fontWeight: FontWeight.bold,
-                                    color: TournamyxTheme.primary,
                                   ),
                                 ),
                               ],
