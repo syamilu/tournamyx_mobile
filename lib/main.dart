@@ -49,7 +49,7 @@ class _MyAppState extends State<MyApp> {
     super.initState();
     FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
-        print("User already signed in : ${user.uid}");
+        print("User already signed in : ${user.displayName}");
       }
     });
   }
