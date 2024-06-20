@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/features/auth/screen/register.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page_details.dart';
 import 'package:tournamyx_mobile/utils/theme/color_schemes.g.dart';
 import 'package:tournamyx_mobile/components/shared/loading_screen.dart';
 import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
@@ -71,7 +72,16 @@ class _MyAppState extends State<MyApp> {
                         builder: (context) => const TourScreen()),
                       );
                   }, 
-                  child: const Text('Tour Page'))
+                  child: const Text('Tour Page')
+                ),
+                ElevatedButton(
+                  onPressed: (){
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                        builder: (context) => const TourPageDetails()),
+                    );
+                  }, child: const Text('Tour Details Page'))
               ],
             ),
           ),
