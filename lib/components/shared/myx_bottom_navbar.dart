@@ -3,8 +3,11 @@ import 'package:ionicons/ionicons.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
+
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
-import 'package:tournamyx_mobile/features/tour/page/tour_page.dart';
+import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
+import 'package:tournamyx_mobile/features/settings/screen/settings.dart';
+
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
 //type or model for bottombar
@@ -43,16 +46,22 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
 
   final List<BottomBarItem> _bottomBarItems = [
     BottomBarItem(
-      label: 'Dashboard',
+      label: 'Home',
       icon: const Icon(Icons.home),
       iconOutline: const Icon(Icons.home_outlined),
-      screen: LoginScreen(), //TODO: replace with dashboard screen
+      screen: const HomeScreen(),
     ),
     BottomBarItem(
       label: 'Favourite',
       icon: const Icon(Ionicons.star),
       iconOutline: const Icon(Ionicons.star_outline),
       screen: const FavouriteScreen(),
+    ),
+    BottomBarItem(
+      label: 'Settings',
+      icon: const Icon(Ionicons.settings),
+      iconOutline: const Icon(Ionicons.settings_outline),
+      screen: const SettingsScreen(),
     ),
   ];
 
@@ -75,7 +84,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: TournamyxTheme.background,
           items: _bottomBarItems
               .map((e) => BottomNavigationBarItem(
                     icon: _selectedIndex == _bottomBarItems.indexOf(e)

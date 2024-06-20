@@ -5,20 +5,42 @@ import 'package:ionicons/ionicons.dart';
 //local imports
 import 'package:tournamyx_mobile/components/auth/button.dart';
 import 'package:tournamyx_mobile/components/auth/text_field.dart';
+import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
-  void signUserIn() {
-    //TODO: implement auth
+  Future<void> signUserIn() async {
     if (_formKey.currentState!.validate()) {
-      print('User signed in');
+      try {
+        final credential =
+            await FirebaseAuth.instance.signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        );
+        if (credential.user != null) {
+          print('User signed in');
+          Navigator.pushAndRemoveUntil(
+            context,
+            MaterialPageRoute(builder: (context) => const MyxBottomNavbar()),
+            (Route<dynamic> route) =>
+                false, // This will remove all routes before pushing the new one
+          );
+        }
+      } catch (e) {
+        print('Error: $e');
+      }
     } else {
       print('User not signed in');
     }
@@ -46,7 +68,6 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-
               Column(
                 children: [
                   SizedBox(height: MediaQuery.of(context).size.height * 0.07),
@@ -116,11 +137,7 @@ class LoginScreen extends StatelessWidget {
                           MyButtonLogin(
                             text: "Login",
                             onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => LoginPage())
-                              //         );
+                              signUserIn();
                             },
                           ),
                           const SizedBox(height: 20),
