@@ -20,12 +20,12 @@ class TourCard extends StatelessWidget {
           children: <Widget>[
             Text(
               title,
-              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
+              style: TextStyle(color: Colors.pink, fontSize: 18, fontWeight: FontWeight.bold),
             ),
             SizedBox(height: 10),
             Text(
               subtitle,
-              style: TextStyle(color: Colors.white, fontSize: 14),
+              style: TextStyle(color: Colors.pink, fontSize: 14),
             ),
           ],
         ),

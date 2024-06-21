@@ -13,7 +13,6 @@ class TourPageDetails extends StatelessWidget {
       ),
       body: const Center(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             CategoriesDialog(),
           ],

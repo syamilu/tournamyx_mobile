@@ -15,7 +15,7 @@ class TourScreen extends StatelessWidget {
           TourCard(
             title: "IIUM ROBOTIC COMPETITION 2024",
             subtitle: 'International Islamic University Malaysia',
-            color: Colors.blue,
+            color: Colors.grey,
           ),
           TourCard(
             title: 'GENIUS ROBOTICS CHAMPIONSHIP', 
