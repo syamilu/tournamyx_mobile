@@ -11,12 +11,10 @@ class TourPageDetails extends StatelessWidget {
         title: const Text("Tournamyx"),
         centerTitle: true,
       ),
-      body: const Center(
-        child: Column(
-          children: [
-            CategoriesDialog(),
-          ],
-        )
+      body: const Column(
+        children: [
+          CategoriesDialog(),
+        ],
       ),
     );
   }

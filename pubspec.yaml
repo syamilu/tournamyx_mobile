@@ -12,6 +12,7 @@ dependencies:
   flutter:
     sdk: flutter
   ionicons: ^0.2.2
+  http: ^0.13.3
 
 dev_dependencies:
   flutter_test:
