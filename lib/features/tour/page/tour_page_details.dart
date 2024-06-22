@@ -13,7 +13,8 @@ class TourPageDetails extends StatelessWidget {
       ),
       body: const Column(
         children: [
-          GroupsTableWidget()
+          CategoriesDialog(),
+          GroupPage()
         ],
       ),
     );
