@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class Group{
+class Group {
   final int id;
   final String name;
   final String group;
 
   Group({required this.id, required this.name, required this.group});
 
-  factory Group.fromJson(Map<String, dynamic> json){
+  factory Group.fromJson(Map<String, dynamic> json) {
     return Group(
       id: json['id'],
       name: json['name'],
@@ -19,7 +19,8 @@ class Group{
 }
 
 Future<List<Group>> fetchGroups() async {
-  final response = await http.get(Uri.parse('https://api.tournamyx.com/groups'));
+  final response = await http.get(Uri.parse(
+      'https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups'));
 
   if (response.statusCode == 200) {
     List jsonResponse = json.decode(response.body);
@@ -30,47 +31,41 @@ Future<List<Group>> fetchGroups() async {
 }
 
 class GroupPage extends StatelessWidget {
-  const GroupPage({super.key});
+  const GroupPage({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('Groups'),
-      ),
-      body: FutureBuilder<List<Group>>(
-        future: fetchGroups(),
-        builder: (context, snapshot) {
-          if (snapshot.connectionState == ConnectionState.waiting) {
-            return Center(child: CircularProgressIndicator());
-          } else if (snapshot.hasError) {
-            return Center(child: Text('Error: ${snapshot.error}'));
-          } else if (snapshot.hasData) {
-            return SingleChildScrollView(
-              scrollDirection: Axis.horizontal,
-              child: DataTable(
-                columns:const  [
-                  DataColumn(label: Text('ID')),
-                  DataColumn(label: Text('Name')),
-                  DataColumn(label: Text('Group')),
-                ],
-                rows: snapshot.data!
-                    .map(
-                      (group) => DataRow(cells: [
-                        DataCell(Text(group.id.toString())),
-                        DataCell(Text(group.name)),
-                        DataCell(Text(group.group)),
-                      ]),
-                    )
-                    .toList(),
-              ),
-            );
-          } else {
-            return const Center(child: Text('No data found'));
-          }
-        },
-      ),
+    return FutureBuilder<List<Group>>(
+      future: fetchGroups(),
+      builder: (context, snapshot) {
+        if (snapshot.connectionState == ConnectionState.waiting) {
+          return Center(child: CircularProgressIndicator());
+        } else if (snapshot.hasError) {
+          return Center(child: Text('Error: ${snapshot.error}'));
+        } else if (snapshot.hasData) {
+          return SingleChildScrollView(
+            scrollDirection: Axis.horizontal,
+            child: DataTable(
+              columns: const [
+                DataColumn(label: Text('ID')),
+                DataColumn(label: Text('Name')),
+                DataColumn(label: Text('Group')),
+              ],
+              rows: snapshot.data!
+                  .map(
+                    (group) => DataRow(cells: [
+                      DataCell(Text(group.id.toString())),
+                      DataCell(Text(group.name)),
+                      DataCell(Text(group.group)),
+                    ]),
+                  )
+                  .toList(),
+            ),
+          );
+        } else {
+          return const Center(child: Text('No data found'));
+        }
+      },
     );
   }
 }
-

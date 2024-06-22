@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
 import 'package:tournamyx_mobile/features/tour/widgets/league_table.dart';
+
 class TourPageDetails extends StatelessWidget {
   const TourPageDetails({super.key});
 
@@ -13,12 +14,11 @@ class TourPageDetails extends StatelessWidget {
       ),
       body: const Column(
         children: [
+          Text('Tournament Name'),
           CategoriesDialog(),
-          GroupPage()
+          GroupPage(),
         ],
       ),
     );
   }
 }
-
-
