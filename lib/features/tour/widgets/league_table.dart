@@ -2,70 +2,149 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-class Group {
-  final int id;
-  final String name;
-  final String group;
 
-  Group({required this.id, required this.name, required this.group});
+class GroupDetails {
+  List<Groups>? groups;
 
-  factory Group.fromJson(Map<String, dynamic> json) {
-    return Group(
-      id: json['id'],
-      name: json['name'],
-      group: json['group'],
-    );
+  GroupDetails({this.groups});
+
+  GroupDetails.fromJson(Map<String, dynamic> json) {
+    if (json['groups'] != null) {
+      groups = <Groups>[];
+      json['groups'].forEach((v) {
+        groups!.add(Groups.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    if (groups != null) {
+      data['groups'] = groups!.map((v) => v.toJson()).toList();
+    }
+    return data;
   }
 }
 
-Future<List<Group>> fetchGroups() async {
-  final response = await http.get(Uri.parse(
-      'https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups'));
+class Groups {
+  String? groupId;
+  List<Teams>? teams;
+
+  Groups({this.groupId, this.teams});
+
+  Groups.fromJson(Map<String, dynamic> json) {
+    groupId = json['groupId'];
+    if (json['teams'] != null) {
+      teams = <Teams>[];
+      json['teams'].forEach((v) {
+        teams!.add(Teams.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['groupId'] = groupId;
+    if (teams != null) {
+      data['teams'] = teams!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Teams {
+  String? id;
+  String? name;
+  int? wins;
+  int? draws;
+  int? losses;
+  int? points;
+  int? goalsScored;
+  int? goalsConceded;
+  int? rank;
+
+  Teams({
+      this.id,
+      this.name,
+      this.wins,
+      this.draws,
+      this.losses,
+      this.points,
+      this.goalsScored,
+      this.goalsConceded,
+      this.rank
+      });
+
+  Teams.fromJson(Map<String, dynamic> json) {
+    id = json['id'];
+    name = json['name'];
+    wins = json['wins'];
+    draws = json['draws'];
+    losses = json['losses'];
+    points = json['points'];
+    goalsScored = json['goalsScored'];
+    goalsConceded = json['goalsConceded'];
+    rank = json['rank'];
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['id'] = id;
+    data['name'] = name;
+    data['wins'] = wins;
+    data['draws'] = draws;
+    data['losses'] = losses;
+    data['points'] = points;
+    data['goalsScored'] = goalsScored;
+    data['goalsConceded'] = goalsConceded;
+    data['rank'] = rank;
+    return data;
+  }
+}
+
+//* Step 3: Fetch and parse JSON data
+Future<GroupDetails> fetchGroupDetails() async {
+  final response = await http.get(Uri.parse('https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups'));
 
   if (response.statusCode == 200) {
-    List jsonResponse = json.decode(response.body);
-    return jsonResponse.map((group) => new Group.fromJson(group)).toList();
+    return GroupDetails.fromJson(json.decode(response.body));
   } else {
-    throw Exception('Failed to load groups from API');
+    throw Exception('Failed to load group details');
   }
 }
 
-class GroupPage extends StatelessWidget {
-  const GroupPage({Key? key}) : super(key: key);
+class LeagueTableWidget extends StatelessWidget {
+  final List<Teams> teams = [];
+
+  LeagueTableWidget({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    return FutureBuilder<List<Group>>(
-      future: fetchGroups(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Center(child: Text('Error: ${snapshot.error}'));
-        } else if (snapshot.hasData) {
-          return SingleChildScrollView(
-            scrollDirection: Axis.horizontal,
-            child: DataTable(
-              columns: const [
-                DataColumn(label: Text('ID')),
-                DataColumn(label: Text('Name')),
-                DataColumn(label: Text('Group')),
-              ],
-              rows: snapshot.data!
-                  .map(
-                    (group) => DataRow(cells: [
-                      DataCell(Text(group.id.toString())),
-                      DataCell(Text(group.name)),
-                      DataCell(Text(group.group)),
-                    ]),
-                  )
-                  .toList(),
-            ),
-          );
-        } else {
-          return const Center(child: Text('No data found'));
-        }
-      },
+    Widget build(BuildContext context){
+    return SingleChildScrollView(
+      scrollDirection: Axis.horizontal,
+      child: DataTable(
+        columns: const [
+          DataColumn(label: Text('Group ID')),
+          DataColumn(label: Text('Team ID')),
+          DataColumn(label: Text('Team Name')),
+          DataColumn(label: Text('Wins')),
+          DataColumn(label: Text('Draws')),
+          DataColumn(label: Text('Losses')),
+          DataColumn(label: Text('Points')),
+          DataColumn(label: Text('Rank')),
+        ],
+        rows: teams.map((team) => DataRow(cells: [
+          DataCell(Text(team.id ?? '')),
+          DataCell(Text(team.name ?? '')),
+          DataCell(Text(team.wins.toString())),
+          DataCell(Text(team.draws.toString())),
+          DataCell(Text(team.losses.toString())),
+          DataCell(Text(team.points.toString())),
+          DataCell(Text(team.rank.toString())),
+        ])).toList(),
+      )
     );
   }
 }
+
+
