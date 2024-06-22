@@ -1,9 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
+import 'package:tournamyx_mobile/features/favourite/model/favourite_model.dart';
 
-class FavouriteScreen extends StatelessWidget {
+class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
+
+  @override
+  State<FavouriteScreen> createState() => _FavouriteScreenState();
+}
+
+class _FavouriteScreenState extends State<FavouriteScreen> {
+  Future<dynamic>? fetchTeamsData;
 
   @override
   Widget build(BuildContext context) {
