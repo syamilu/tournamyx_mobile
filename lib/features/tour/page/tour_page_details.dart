@@ -12,14 +12,17 @@ class TourPageDetails extends StatelessWidget {
         title: const Text("Tournamyx"),
         centerTitle: true,
       ),
-      body: Expanded(
+      body: SingleChildScrollView(
         child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Tournament Name'),
-            CategoriesDialog(),
-            // LeagueTableWidget()
+              Text('Tournament Name'),
+              CategoriesDialog(),
+              // GroupsPage(),
+              // LeagueTableWidget(),
           ],
         ),
+
       ),
     );
   }
