@@ -17,7 +17,6 @@ class FavouriteScreen extends StatefulWidget {
 
 class _FavouriteScreenState extends State<FavouriteScreen> {
   Map<String, dynamic> favoriteTeamData = {};
-  // Map<String, dynamic> groupData = {};
   LeagueData? leagueData;
   Group? selectedGroup;
   FirebaseFirestore db = FirebaseFirestore.instance;
@@ -80,20 +79,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           print('Favorite team found in group ${selectedGroup?.groupId}');
           return;
         });
-        // for (var group in groups) {
-        //   final teams = group['teams'] as List<dynamic>;
-        //   final containsFavoriteTeam =
-        //       teams.any((team) => team['id'] == favoriteTeamId);
-
-        //   if (containsFavoriteTeam) {
-        //     setState(() {
-        //       groupData = group;
-        //     });
-        //     print('Favorite team found in group ${group['groupId']}');
-        //     return;
-        //   }
-        // }
-        // print('Favorite team not found in any group');
       } else {
         print('Failed to load data');
       }
@@ -141,7 +126,10 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           builder: (context, constraints) {
             return RefreshIndicator(
                 color: TournamyxTheme.primary,
-                onRefresh: fetchAndUpdateData,
+                onRefresh: () async {
+                  fetchAndUpdateData;
+                  fetchAndFilterGroupData;
+                },
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
@@ -286,8 +274,8 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       SizedBox(height: 20),
                       //leaderboard placeholder
                       Container(
-                        padding: const EdgeInsets.all(20),
-                        margin: const EdgeInsets.all(10),
+                        padding: const EdgeInsets.all(15),
+                        margin: const EdgeInsets.only(top: 10, bottom: 20),
                         decoration: BoxDecoration(
                           boxShadow: [
                             BoxShadow(
@@ -299,7 +287,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           borderRadius: BorderRadius.circular(10),
                         ),
                         child: selectedGroup != null
-                            ? LeaderboardTable(group: selectedGroup!)
+                            ? LeaderboardTable(
+                                group: selectedGroup!,
+                                favTeam: favoriteTeamData['teamID'].toString())
                             : const Center(
                                 child: CircularProgressIndicator(),
                               ),
@@ -314,22 +304,29 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
 class LeaderboardTable extends StatelessWidget {
   final Group group;
+  final String favTeam;
 
-  LeaderboardTable({required this.group});
+  LeaderboardTable({required this.group, required this.favTeam});
 
   @override
   Widget build(BuildContext context) {
     return DataTable(
       columnSpacing: 20,
       columns: [
-        DataColumn(label: Text('Rank')),
-        DataColumn(label: Text('Team')),
-        DataColumn(label: Text('Points')),
+        DataColumn(label: Text('R')),
+        DataColumn(label: Text('Team Name')),
+        DataColumn(label: Text('P')),
         DataColumn(label: Text('W-D-L')),
         DataColumn(label: Text('GS-GC')),
       ],
       rows: group.teams
           .map((team) => DataRow(
+                color: MaterialStateProperty.resolveWith<Color?>(
+                    (Set<MaterialState> states) {
+                  return team.id == favTeam
+                      ? Colors.yellow.withOpacity(0.2)
+                      : null;
+                }),
                 cells: [
                   DataCell(Text(team.rank.toString())),
                   DataCell(Text(team.name)),
