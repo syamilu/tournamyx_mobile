@@ -21,4 +21,4 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 
 ### Sequence Diagram
 
-## References
+### References
