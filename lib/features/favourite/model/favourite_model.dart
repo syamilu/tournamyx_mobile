@@ -1,93 +1,99 @@
-class TeamsModel {
-  List<Teams>? teams;
+class FavouriteTeamModel {
+  String? teamCategory;
+  String? teamID;
+  String? teamName;
+  String? tourName;
 
-  TeamsModel({this.teams});
+  FavouriteTeamModel({
+    this.teamCategory,
+    this.teamID,
+    this.teamName,
+    this.tourName,
+  });
 
-  TeamsModel.fromJson(Map<String, dynamic> json) {
-    if (json['teams'] != null) {
-      teams = <Teams>[];
-      json['teams'].forEach((v) {
-        teams!.add(new Teams.fromJson(v));
-      });
-    }
+  // Factory constructor to create a FavouriteTeamModel from a JSON map
+  factory FavouriteTeamModel.fromJson(Map<String, dynamic> json) {
+    return FavouriteTeamModel(
+      teamCategory: json['teamCategory'],
+      teamID: json['teamID'],
+      teamName: json['teamName'],
+      tourName: json['tourName'],
+    );
   }
 
+  // Method to convert FavouriteTeamModel instance to JSON map
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.teams != null) {
-      data['teams'] = this.teams!.map((v) => v.toJson()).toList();
-    }
-    return data;
+    return {
+      'teamCategory': teamCategory,
+      'teamID': teamID,
+      'teamName': teamName,
+      'tourName': tourName,
+    };
   }
 }
 
-class Teams {
-  Supervisor? supervisor;
-  String? sId;
-  String? name;
-  String? school;
-  List<String>? participants;
-  String? category;
-  int? iV;
-  String? id;
 
-  Teams(
-      {this.supervisor,
-      this.sId,
-      this.name,
-      this.school,
-      this.participants,
-      this.category,
-      this.iV,
-      this.id});
+// for leaderboard
+class LeagueData {
+  final List<Group> groups;
 
-  Teams.fromJson(Map<String, dynamic> json) {
-    supervisor = json['supervisor'] != null
-        ? new Supervisor.fromJson(json['supervisor'])
-        : null;
-    sId = json['_id'];
-    name = json['name'];
-    school = json['school'];
-    participants = json['participants'].cast<String>();
-    category = json['category'];
-    iV = json['__v'];
-    id = json['id'];
-  }
+  LeagueData({required this.groups});
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this.supervisor != null) {
-      data['supervisor'] = this.supervisor!.toJson();
-    }
-    data['_id'] = this.sId;
-    data['name'] = this.name;
-    data['school'] = this.school;
-    data['participants'] = this.participants;
-    data['category'] = this.category;
-    data['__v'] = this.iV;
-    data['id'] = this.id;
-    return data;
+  factory LeagueData.fromJson(Map<String, dynamic> json) {
+    return LeagueData(
+      groups: (json['groups'] as List).map((group) => Group.fromJson(group)).toList(),
+    );
   }
 }
 
-class Supervisor {
-  String? name;
-  String? email;
-  String? phone;
+class Group {
+  final String groupId;
+  final List<Team> teams;
 
-  Supervisor({this.name, this.email, this.phone});
+  Group({required this.groupId, required this.teams});
 
-  Supervisor.fromJson(Map<String, dynamic> json) {
-    name = json['name'];
-    email = json['email'];
-    phone = json['phone'];
+  factory Group.fromJson(Map<String, dynamic> json) {
+    return Group(
+      groupId: json['groupId'],
+      teams: (json['teams'] as List).map((team) => Team.fromJson(team)).toList(),
+    );
   }
+}
 
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['name'] = this.name;
-    data['email'] = this.email;
-    data['phone'] = this.phone;
-    return data;
+class Team {
+  final String id;
+  final String name;
+  final int wins;
+  final int draws;
+  final int losses;
+  final int points;
+  final int goalsScored;
+  final int goalsConceded;
+  final int rank;
+
+  Team({
+    required this.id,
+    required this.name,
+    required this.wins,
+    required this.draws,
+    required this.losses,
+    required this.points,
+    required this.goalsScored,
+    required this.goalsConceded,
+    required this.rank,
+  });
+
+  factory Team.fromJson(Map<String, dynamic> json) {
+    return Team(
+      id: json['id'],
+      name: json['name'],
+      wins: json['wins'],
+      draws: json['draws'],
+      losses: json['losses'],
+      points: json['points'],
+      goalsScored: json['goalsScored'],
+      goalsConceded: json['goalsConceded'],
+      rank: json['rank'],
+    );
   }
 }
