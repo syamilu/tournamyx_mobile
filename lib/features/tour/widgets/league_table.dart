@@ -2,43 +2,28 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 
-
 class Group {
-  List<Groups>? groups;
-
-  Group({this.groups});
-
-  Group.fromJson(Map<String, dynamic> json) {
-    if (json['groups'] != null) {
-      groups = <Groups>[];
-      json['groups'].forEach((v) {
-        groups!.add(Groups.fromJson(v));
-      });
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (groups != null) {
-      data['groups'] = groups!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Groups {
   String? groupId;
   List<Teams>? teams;
 
-  Groups({this.groupId, this.teams});
+  Group({this.groupId, this.teams});
 
-  Groups.fromJson(Map<String, dynamic> json) {
-    groupId = json['groupId'];
-    if (json['teams'] != null) {
-      teams = <Teams>[];
-      json['teams'].forEach((v) {
-        teams!.add(Teams.fromJson(v));
-      });
+  Group.fromJson(Map<String, dynamic> json) {
+    try {
+      print("Parsing Group: ${json['groupId']}");
+      groupId = json['groupId'];
+      if (json['teams'] != null) {
+        teams = <Teams>[];
+        json['teams'].forEach((v) {
+          print("Parsing team in group $groupId");
+          teams!.add(Teams.fromJson(v));
+        });
+      }
+      print("Group $groupId parsed successfully");
+    } catch (e) {
+      print("Error parsing Group: $e");
+      print("JSON: $json");
+      rethrow;
     }
   }
 
@@ -51,6 +36,32 @@ class Groups {
     return data;
   }
 }
+
+// class Groups {
+//   String? groupId;
+//   List<Teams>? teams;
+
+//   Groups({this.groupId, this.teams});
+
+//   Groups.fromJson(Map<String, dynamic> json) {
+//     groupId = json['groupId'];
+//     if (json['teams'] != null) {
+//       teams = <Teams>[];
+//       json['teams'].forEach((v) {
+//         teams!.add(Teams.fromJson(v));
+//       });
+//     }
+//   }
+
+//   Map<String, dynamic> toJson() {
+//     final Map<String, dynamic> data = new Map<String, dynamic>();
+//     data['groupId'] = groupId;
+//     if (teams != null) {
+//       data['teams'] = teams!.map((v) => v.toJson()).toList();
+//     }
+//     return data;
+//   }
+// }
 
 class Teams {
   String? id;
@@ -75,15 +86,22 @@ class Teams {
       this.rank});
 
   Teams.fromJson(Map<String, dynamic> json) {
-    id = json['id'];
-    name = json['name'];
-    wins = json['wins'];
-    draws = json['draws'];
-    losses = json['losses'];
-    points = json['points'];
-    goalsScored = json['goalsScored'];
-    goalsConceded = json['goalsConceded'];
-    rank = json['rank'];
+    try {
+      id = json['id'];
+      name = json['name'];
+      wins = json['wins'];
+      draws = json['draws'];
+      losses = json['losses'];
+      points = json['points'];
+      goalsScored = json['goalsScored'];
+      goalsConceded = json['goalsConceded'];
+      rank = json['rank'];
+      print("Team $name parsed successfully");
+    } catch (e) {
+      print("Error parsing Team: $e");
+      print("JSON: $json");
+      rethrow;
+    }
   }
 
   Map<String, dynamic> toJson() {
@@ -110,74 +128,159 @@ class GroupsPage extends StatefulWidget {
 }
 
 class _GroupsPageState extends State<GroupsPage> {
-  Future<List<Group>> fetchGroups() async {
-    final response = await http.get(Uri.parse('https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups'));
-    if (response.statusCode == 200) {
-      List jsonResponse = json.decode(response.body);
-      return jsonResponse.map((group) => Group.fromJson(group)).toList();
-    } else {
-      throw Exception('Failed to load groups');
+  List<Group>? groups;
+  bool isLoading = true;
+  String? error;
+  //variable for current group selection such as A, B or C in character
+  String _chosenGroup = 'A';
+
+  @override
+  void initState() {
+    super.initState();
+    loadGroups();
+  }
+
+  Future<void> loadGroups() async {
+    try {
+      final fetchedGroups = await fetchGroups();
+      setState(() {
+        groups = fetchedGroups;
+        isLoading = false;
+      });
+      print("Groups loaded into state: ${groups?.length}");
+      groups?.forEach((group) {
+        print('Group ID: ${group.groupId}');
+        group.teams!.forEach((team) {
+          print(
+              'Team ID: ${team.id}, Name: ${team.name}, Wins: ${team.wins}, Draws: ${team.draws}, Losses: ${team.losses}, Points: ${team.points}, Goals Scored: ${team.goalsScored}, Goals Conceded: ${team.goalsConceded}, Rank: ${team.rank}');
+        });
+      });
+    } catch (e) {
+      setState(() {
+        error = e.toString();
+        isLoading = false;
+      });
+      print("Error loading groups: $e");
     }
   }
 
   @override
   Widget build(BuildContext context) {
-  return Scaffold(
-    appBar: AppBar(
-      title: const Text('Groups'),
-    ),
-    body: FutureBuilder<List<Group>>(
-      future: fetchGroups(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.waiting) {
-          return const Center(child: CircularProgressIndicator());
-        } else if (snapshot.hasError) {
-          return Text("Error: ${snapshot.error}");
-        } else if (snapshot.hasData) {
-          return ListView.builder(
-            itemCount: snapshot.data!.length,
-            itemBuilder: (context, index) {
-              Group group = snapshot.data![index];
-              return ExpansionTile(
-                title: Text('Group ${group.groups}'),
-                children: [
-                  SingleChildScrollView(
-                    scrollDirection: Axis.horizontal,
-                    child: DataTable(
-                      columns: const [
-                        DataColumn(label: Text('Team ID')),
-                        DataColumn(label: Text('Team Name')),
-                        DataColumn(label: Text('Wins')),
-                        DataColumn(label: Text('Draws')),
-                        DataColumn(label: Text('Losses')),
-                        DataColumn(label: Text('Goal Differences')),
-                        DataColumn(label: Text('Points')),
-                      ],
-                      rows: group.Teams!.map<DataRow>((team) { //! I want to refer to the teams but it did not work.
-                        int goalDifference = team.goalsScored! - team.goalsConceded!;
-                        return DataRow(cells: [
-                          DataCell(Text(team.id!)),
-                          DataCell(Text(team.name!)),
-                          DataCell(Text(team.wins.toString())),
-                          DataCell(Text(team.draws.toString())),
-                          DataCell(Text(team.losses.toString())),
-                          DataCell(Text(goalDifference.toString())),
-                          DataCell(Text(team.points.toString())),
-                        ]);
-                      }).toList(),
-                    ),
-                  ),
+    if (isLoading) {
+      return const Center(child: CircularProgressIndicator());
+    }
+
+    if (error != null) {
+      return Center(child: Text("Error: $error"));
+    }
+
+    if (groups == null || groups!.isEmpty) {
+      return const Center(child: Text("No groups available"));
+    }
+
+    Group? chosenGroup = groups!.firstWhere(
+      (group) => group.groupId == _chosenGroup,
+      orElse: () => Group(groupId: _chosenGroup, teams: []),
+    );
+
+    if (chosenGroup == null) {
+      return Center(child: Text("Group $_chosenGroup not found"));
+    }
+
+    // Create rows for each team in the chosen group
+    final rows = chosenGroup.teams?.map<DataRow>((team) {
+          return DataRow(cells: [
+            DataCell(Text(team.name ?? '')),
+            DataCell(Text(team.wins?.toString() ?? '0')),
+            DataCell(Text(team.draws?.toString() ?? '0')),
+            DataCell(Text(team.losses?.toString() ?? '0')),
+            DataCell(Text(team.points?.toString() ?? '0')),
+            DataCell(Text(team.goalsScored?.toString() ?? '0')),
+            DataCell(Text(team.goalsConceded?.toString() ?? '0')),
+            DataCell(Text(team.rank?.toString() ?? '0')),
+          ]);
+        }).toList() ??
+        [];
+
+    // Return a DataTable widget
+    return Column(
+      children: [
+        DropdownButton<String>(
+          value: _chosenGroup,
+          items: groups!.map((Group group) {
+            return DropdownMenuItem<String>(
+              value: group.groupId,
+              child: Text('Group ${group.groupId}'),
+            );
+          }).toList(),
+          onChanged: (String? newValue) {
+            setState(() {
+              _chosenGroup = newValue!;
+            });
+          },
+        ),
+        SingleChildScrollView(
+          scrollDirection: Axis.horizontal,
+          child: Column(
+            children: [
+              Text('Group ${chosenGroup.groupId}',
+                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
+              DataTable(
+                columnSpacing: 20.0,
+                columns: const [
+                  DataColumn(label: Text('Name')),
+                  DataColumn(label: Text('W')),
+                  DataColumn(label: Text('D')),
+                  DataColumn(label: Text('L')),
+                  DataColumn(label: Text('P')),
+                  DataColumn(label: Text('GS')),
+                  DataColumn(label: Text('GC')),
+                  DataColumn(label: Text('Rank')),
                 ],
-              );
-            },
-          );
-        } else {
-          return const Text('No data');
+                rows: rows,
+              ),
+            ],
+          ),
+        ),
+      ],
+    );
+  }
+}
+
+Future<List<Group>> fetchGroups() async {
+  try {
+    print("Fetching groups...");
+    final response = await http.get(Uri.parse(
+        'https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups'));
+    print("Response received. Status code: ${response.statusCode}");
+
+    if (response.statusCode == 200) {
+      print("Parsing JSON...");
+      Map<String, dynamic> jsonResponse = json.decode(response.body);
+      print(
+          "JSON decoded. Contains 'groups' key: ${jsonResponse.containsKey('groups')}");
+
+      if (jsonResponse.containsKey('groups')) {
+        List<dynamic> groupsList = jsonResponse['groups'];
+        print("Number of groups: ${groupsList.length}");
+        List<Group> groups = [];
+        for (var i = 0; i < groupsList.length; i++) {
+          print("Parsing group $i");
+          groups.add(Group.fromJson(groupsList[i]));
+          // Add a small delay between parsing each group
+          await Future.delayed(Duration(milliseconds: 100));
         }
-      },
-    ),
-  );
+        print("All groups parsed successfully");
+        return groups;
+      } else {
+        throw Exception('Unexpected JSON structure: ${jsonResponse.keys}');
+      }
+    } else {
+      throw Exception(
+          'Failed to load groups. Status code: ${response.statusCode}');
+    }
+  } catch (e) {
+    print("Error in fetchGroups: $e");
+    rethrow;
+  }
 }
-}
-
-

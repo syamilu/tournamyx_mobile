@@ -14,7 +14,7 @@ class MyTextField extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return TextFormField(
-      validator: (val) => val!.isEmpty ? 'Veuillez remplir ce champ svp' : null,
+      validator: (val) => val!.isEmpty ? 'Eits, mana boley kosong' : null,
       controller: controller,
       obscureText: obscureText,
       decoration: InputDecoration(
