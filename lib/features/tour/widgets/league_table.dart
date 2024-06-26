@@ -2,104 +2,14 @@ import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
 import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
-
-
-class Group {
-  String? groupId;
-  List<Teams>? teams;
-
-  Group({this.groupId, this.teams});
-
-  Group.fromJson(Map<String, dynamic> json) {
-    try {
-      print("Parsing Group: ${json['groupId']}");
-      groupId = json['groupId'];
-      if (json['teams'] != null) {
-        teams = <Teams>[];
-        json['teams'].forEach((v) {
-          print("Parsing team in group $groupId");
-          teams!.add(Teams.fromJson(v));
-        });
-      }
-      print("Group $groupId parsed successfully");
-    } catch (e) {
-      print("Error parsing Group: $e");
-      print("JSON: $json");
-      rethrow;
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['groupId'] = groupId;
-    if (teams != null) {
-      data['teams'] = teams!.map((v) => v.toJson()).toList();
-    }
-    return data;
-  }
-}
-
-class Teams {
-  String? id;
-  String? name;
-  int? wins;
-  int? draws;
-  int? losses;
-  int? points;
-  int? goalsScored;
-  int? goalsConceded;
-  int? rank;
-
-  Teams(
-      {this.id,
-      this.name,
-      this.wins,
-      this.draws,
-      this.losses,
-      this.points,
-      this.goalsScored,
-      this.goalsConceded,
-      this.rank});
-
-  Teams.fromJson(Map<String, dynamic> json) {
-    try {
-      id = json['id'];
-      name = json['name'];
-      wins = json['wins'];
-      draws = json['draws'];
-      losses = json['losses'];
-      points = json['points'];
-      goalsScored = json['goalsScored'];
-      goalsConceded = json['goalsConceded'];
-      rank = json['rank'];
-      print("Team $name parsed successfully");
-    } catch (e) {
-      print("Error parsing Team: $e");
-      print("JSON: $json");
-      rethrow;
-    }
-  }
-
-  Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = id;
-    data['name'] = name;
-    data['wins'] = wins;
-    data['draws'] = draws;
-    data['losses'] = losses;
-    data['points'] = points;
-    data['goalsScored'] = goalsScored;
-    data['goalsConceded'] = goalsConceded;
-    data['rank'] = rank;
-    return data;
-  }
-}
+import 'package:tournamyx_mobile/features/tour/model/team_and_group_model.dart';
 
 class GroupsPage extends StatefulWidget {
-  const GroupsPage({super.key});
+  final String categoryValue;
+
+  const GroupsPage({Key? key, required this.categoryValue}) : super(key: key);
 
   @override
-  // ignore: library_private_types_in_public_api
   _GroupsPageState createState() => _GroupsPageState();
 }
 
@@ -115,15 +25,29 @@ class _GroupsPageState extends State<GroupsPage> {
     super.initState();
     loadGroups();
   }
-  void updateCategoryAndFetchGroups(String categoryId) async {
-    setState(() {
-      isLoading = true;
-  });
-}
+
+  // void updateCategoryAndFetchGroups(String categoryId) async {
+  //   setState(() {
+  //     isLoading = true;
+  //   });
+  // }
+
+  @override
+  void didUpdateWidget(covariant GroupsPage oldWidget) {
+    super.didUpdateWidget(oldWidget);
+    // Check if categoryValue has changed
+    if (oldWidget.categoryValue != widget.categoryValue) {
+      // If yes, load groups for the new category
+      setState(() {
+        isLoading = true;
+      });
+      loadGroups();
+    }
+  }
 
   Future<void> loadGroups() async {
     try {
-      final fetchedGroups = await fetchGroups('soc-prim');
+      final fetchedGroups = await fetchGroups(widget.categoryValue);
       setState(() {
         groups = fetchedGroups;
         isLoading = false;
@@ -147,7 +71,7 @@ class _GroupsPageState extends State<GroupsPage> {
 
   @override
   Widget build(BuildContext context) {
-  if (isLoading) {
+    if (isLoading) {
       return const Center(child: CircularProgressIndicator());
     }
 
@@ -204,8 +128,6 @@ class _GroupsPageState extends State<GroupsPage> {
           scrollDirection: Axis.horizontal,
           child: Column(
             children: [
-              Text('Group ${chosenGroup.groupId}',
-                  style: TextStyle(fontSize: 20, fontWeight: FontWeight.bold)),
               DataTable(
                 columnSpacing: 20.0,
                 columns: const [
@@ -218,7 +140,7 @@ class _GroupsPageState extends State<GroupsPage> {
                   DataColumn(label: Text('GC')),
                   DataColumn(label: Text('Rank')),
                 ],
-              rows: rows,
+                rows: rows,
               ),
             ],
           ),
@@ -228,21 +150,12 @@ class _GroupsPageState extends State<GroupsPage> {
   }
 }
 
-
 Future<List<Group>> fetchGroups(String categoryId) async {
-  String categories = '';
-
-  if (categoryId == 'soc-prim') {
-    categories = 'soccer-primary';
-  }else if (categoryId == 'soc-sec'){
-    categories = 'soccer-secondary';
-  }
-
   try {
-    print("Fetching groups...");  
+    print("Fetching groups...");
     final response = await http.get(Uri.parse(
-        'https://admin.tournamyx.com/api/iiumrc/$categories/tournament/groups'));
-    
+        'https://admin.tournamyx.com/api/iiumrc/$categoryId/tournament/groups'));
+
     print("Response received. Status code: ${response.statusCode}");
 
     if (response.statusCode == 200) {
@@ -275,6 +188,3 @@ Future<List<Group>> fetchGroups(String categoryId) async {
     rethrow;
   }
 }
-
-
-

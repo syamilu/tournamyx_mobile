@@ -53,7 +53,6 @@ packages:
     dependency: transitive
     description:
       name: cloud_firestore_platform_interface
-
       sha256: cfc64ae4a48bbb0ff6730b04f2d4653043c7a9b9008a991b1f2012a534b79e26
       url: "https://pub.dev"
     source: hosted
