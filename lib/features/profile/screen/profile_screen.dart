@@ -17,9 +17,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   void _signOut() async {
     await _auth.signOut();
-    Navigator.pushReplacement(
-      context,
+    Navigator.of(context).pushAndRemoveUntil(
       MaterialPageRoute(builder: (context) => LoginScreen()),
+      (Route<dynamic> route) => false,
     );
   }
 
