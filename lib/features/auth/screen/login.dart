@@ -29,6 +29,13 @@ class _LoginScreenState extends State<LoginScreen> {
     checkCurrentUser();
   }
 
+  @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
   void checkCurrentUser() async {
     final user = FirebaseAuth.instance.currentUser;
     if (user != null) {
@@ -124,18 +131,18 @@ class _LoginScreenState extends State<LoginScreen> {
               ),
               Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      icon: const Icon(Icons.arrow_back_ios),
-                      color: TournamyxTheme.primary,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: IconButton(
+                  //     padding: const EdgeInsets.only(left: 25.0),
+                  //     icon: const Icon(Icons.arrow_back_ios),
+                  //     color: TournamyxTheme.primary,
+                  //     onPressed: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //   ),
+                  // ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   const Text(
                     "Welcome back to Tournamyx!",

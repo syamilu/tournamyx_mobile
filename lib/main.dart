@@ -25,12 +25,6 @@ void main() async {
   }
 
   runApp(const MyApp());
-
-  // runApp(
-  //   const ProviderScope(
-  //     child: MyApp(),
-  //   ),
-  // );
 }
 
 class MyApp extends StatefulWidget {
@@ -44,16 +38,14 @@ class _MyAppState extends State<MyApp> {
   late StreamSubscription<User?> _sub;
   final navigatorKey = GlobalKey<NavigatorState>();
 
-  //for checking whether user already sign in or not
   @override
   void initState() {
     super.initState();
     _sub = FirebaseAuth.instance.authStateChanges().listen((User? user) {
-      if (user != null) {
-        print("User already signed in : ${user.displayName}");
-        navigatorKey.currentState?.pushReplacementNamed('/home');
+      if (user == null) {
+        navigatorKey.currentState?.pushReplacementNamed('/login');
       } else {
-        print("User not signed in");
+        navigatorKey.currentState?.pushReplacementNamed('/home');
       }
     });
   }
@@ -77,58 +69,18 @@ class _MyAppState extends State<MyApp> {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-
-      home: Scaffold(
+      home: const Scaffold(
         body: Center(
-          child: Builder(
-            builder: (context) => Column(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.pushNamed(context, '/login');
-                  },
-                  child: const Text('Login'),
-                ),
-                const SizedBox(height: 10),
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                          builder: (context) => const MyxBottomNavbar()),
-                    );
-                  },
-                  child: const Text('User Page'),
-                ),
-                ElevatedButton(
-                    onPressed: () {
-                      Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => const TourScreen()),
-                      );
-                    },
-                    child: const Text('Tour Page'))
-              ],
-            ),
-          ),
+          child: LoadingScreen(),
         ),
       ),
-      // FutureBuilder(
-      //   future: Future.delayed(const Duration(seconds: 0)),
-      //   builder: (context, snapshot) =>
-      //       snapshot.connectionState == ConnectionState.done
-      //           ? const MyxBottomNavbar()
-      //           : const LoadingScreen(),
-      // ),
       routes: {
-        //   '/welcome': (context) => const WelcomeScreen(),
         '/register': (context) => const RegisterScreen(),
         '/home': (context) => const MyxBottomNavbar(),
         '/login': (context) => LoginScreen(),
         '/favourite': (context) => const FavouriteScreen(),
         '/change-password': (context) => const ChangePasswordScreen(),
+        '/tour': (context) => const TourScreen(),
       },
     );
   }

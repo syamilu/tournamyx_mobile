@@ -21,6 +21,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Group? selectedGroup;
   FirebaseFirestore db = FirebaseFirestore.instance;
   List<Map<String, dynamic>> favTeamSchedule = [];
+  bool favoriteTeamAvailable = false;
 
   @override
   void initState() {
@@ -64,6 +65,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   Future<void> fetchAndFilterGroupData() async {
     if (favoriteTeamData.isEmpty || favoriteTeamData['teamCategory'] == null) {
       print('Favorite team data not available yet');
+      setState(() {
+        favoriteTeamAvailable = false;
+      });
       return;
     }
     try {
@@ -85,7 +89,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 throw Exception('Group containing favorite team not found'),
           );
           print('Favorite team found in group ${selectedGroup?.groupId}');
+
           fetchAndFilterFavTeamSchedule();
+          favoriteTeamAvailable = true;
           return;
         });
       } else {
@@ -125,8 +131,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
         final List<dynamic> groupSchedules = data['groupSchedules'];
 
         for (var group in groupSchedules) {
-          print('Group structure: $group');
-
           if (group.isNotEmpty && group is List && group[0] is Map) {
             for (var game in group) {
               // Add a null check for game
@@ -135,7 +139,6 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 continue; // Skip to the next iteration if game is null
               }
 
-              print('Game: $game');
               if (game['redTeam'] == favoriteTeamId ||
                   game['blueTeam'] == favoriteTeamId) {
                 // Found a game involving the favorite team
@@ -168,6 +171,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
 
   @override
   Widget build(BuildContext context) {
+    if (!favoriteTeamAvailable) {
+      return const Center(
+        child: Text('Add team to favourite'),
+      );
+    }
+
     return Scaffold(
         appBar: AppBar(
           actionsIconTheme: const IconThemeData(color: TournamyxTheme.primary),
