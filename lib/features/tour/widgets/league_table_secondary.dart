@@ -95,15 +95,15 @@ class Teams {
   }
 }
 
-class GroupsPage extends StatefulWidget {
-  const GroupsPage({super.key});
+class GroupsPageSecondary extends StatefulWidget {
+  const GroupsPageSecondary({super.key});
 
   @override
   // ignore: library_private_types_in_public_api
   _GroupsPageState createState() => _GroupsPageState();
 }
 
-class _GroupsPageState extends State<GroupsPage> {
+class _GroupsPageState extends State<GroupsPageSecondary> {
   List<Group>? groups;
   bool isLoading = true;
   String? error;
@@ -115,15 +115,10 @@ class _GroupsPageState extends State<GroupsPage> {
     super.initState();
     loadGroups();
   }
-  void updateCategoryAndFetchGroups(String categoryId) async {
-    setState(() {
-      isLoading = true;
-  });
-}
 
   Future<void> loadGroups() async {
     try {
-      final fetchedGroups = await fetchGroups('soc-prim');
+      final fetchedGroups = await fetchGroups();
       setState(() {
         groups = fetchedGroups;
         isLoading = false;
@@ -229,19 +224,11 @@ class _GroupsPageState extends State<GroupsPage> {
 }
 
 
-Future<List<Group>> fetchGroups(String categoryId) async {
-  String categories = '';
-
-  if (categoryId == 'soc-prim') {
-    categories = 'soccer-primary';
-  }else if (categoryId == 'soc-sec'){
-    categories = 'soccer-secondary';
-  }
-
+Future<List<Group>> fetchGroups() async {
   try {
-    print("Fetching groups...");  
+    print("Fetching groups...");
     final response = await http.get(Uri.parse(
-        'https://admin.tournamyx.com/api/iiumrc/$categories/tournament/groups'));
+        'https://admin.tournamyx.com/api/iiumrc/soccer-secondary/tournament/groups'));
     
     print("Response received. Status code: ${response.statusCode}");
 
@@ -275,6 +262,4 @@ Future<List<Group>> fetchGroups(String categoryId) async {
     rethrow;
   }
 }
-
-
 

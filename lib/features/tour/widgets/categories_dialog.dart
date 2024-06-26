@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:tournamyx_mobile/features/tour/widgets/league_table.dart';
 
 class CategoriesDialog extends StatefulWidget{
   const CategoriesDialog({super.key});
@@ -27,7 +28,7 @@ class _CategoriesDialogState extends State<CategoriesDialog>{
                   SimpleDialogOption(
                     onPressed: () {
                       setState(() {
-                        _chosenValue = 'Soccer Primary';
+                        fetchGroups('soc-prim');
                       });
                       Navigator.pop(context, 'Category 1');
                     },
@@ -37,6 +38,7 @@ class _CategoriesDialogState extends State<CategoriesDialog>{
                     onPressed: () {
                       setState((){
                         _chosenValue = 'Soccer Secondary';
+                        fetchGroups('soc-sec');
                       });
                       Navigator.pop(context, 'Category 2');
                     },
@@ -46,15 +48,6 @@ class _CategoriesDialogState extends State<CategoriesDialog>{
               ));
           },
         )
-        //Display different content based on the chosen category
-        // switch (_chosenValue) {
-        //   case 'Soccer Primary':
-        //   return Column(
-        //     children: [
-        //       Text('The Fixture'),
-        //     ]
-        //   )
-        // }
       ]
     );
   }

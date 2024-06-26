@@ -16,9 +16,9 @@ class TourPageDetails extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            Text('Tournament Name'),
-            CategoriesDialog(),
-            GroupsPage(),
+            Text('Tournament Details'),
+            // CategoriesDialog(),
+            // GroupsPage(),
             // LeagueTableWidget(),
           ],
         ),

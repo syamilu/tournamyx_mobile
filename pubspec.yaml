@@ -14,6 +14,7 @@ dependencies:
     sdk: flutter
   ionicons: ^0.2.2
   http: ^0.13.6
+  cloud_firestore: ^5.0.2
 
 dev_dependencies:
   flutter_test:

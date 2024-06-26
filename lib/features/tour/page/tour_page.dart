@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/components/shared/myx_topbar.dart';
 import 'package:tournamyx_mobile/features/tour/widgets/tour_card.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
-import 'package:ionicons/ionicons.dart';
+
 
 class TourScreen extends StatelessWidget {
   const TourScreen({super.key});
