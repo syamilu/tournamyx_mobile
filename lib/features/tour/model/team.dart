@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 class TeamModel {
   final String id;
   final String name;
