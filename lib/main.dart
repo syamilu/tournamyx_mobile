@@ -3,9 +3,11 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/features/auth/screen/register.dart';
+import 'package:tournamyx_mobile/features/profile/screen/change_password.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
 import 'package:tournamyx_mobile/features/tour/page/tour_page_details.dart';
 import 'package:tournamyx_mobile/utils/theme/color_schemes.g.dart';
+
 import 'package:tournamyx_mobile/components/shared/loading_screen.dart';
 import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
@@ -144,6 +146,7 @@ class _MyAppState extends State<MyApp> {
         '/register': (context) => const RegisterScreen(),
         '/login': (context) => LoginScreen(),
         '/favourite': (context) => const FavouriteScreen(),
+        '/change-password': (context) => const ChangePasswordScreen(),
       },
     );
   }
