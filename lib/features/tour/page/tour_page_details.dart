@@ -18,7 +18,7 @@ class TourPageDetails extends StatelessWidget {
           children: [
             Text('Tournament Name'),
             CategoriesDialog(),
-            Container(child: GroupsPage()),
+            GroupsPage(),
             // LeagueTableWidget(),
           ],
         ),
