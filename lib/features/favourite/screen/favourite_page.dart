@@ -2,11 +2,11 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
-import 'package:tournamyx_mobile/features/favourite/services/fetch_favteam.dart';
 import 'package:tournamyx_mobile/features/favourite/model/favourite_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
+import 'package:tournamyx_mobile/features/favourite/screen/all_match_pages.dart';
 
 class FavouriteScreen extends StatefulWidget {
   const FavouriteScreen({super.key});
@@ -20,12 +20,12 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   LeagueData? leagueData;
   Group? selectedGroup;
   FirebaseFirestore db = FirebaseFirestore.instance;
+  List<Map<String, dynamic>> favTeamSchedule = [];
 
   @override
   void initState() {
     super.initState();
     fetchAndUpdateData();
-    fetchAndFilterGroupData();
   }
 
   Future<void> fetchAndUpdateData() async {
@@ -45,6 +45,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           setState(() {
             favoriteTeamData = docSnapshot.data() as Map<String, dynamic>;
           });
+          fetchAndFilterGroupData();
         } else {
           print('No favorite team data found');
           @override
@@ -61,9 +62,16 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
   }
 
   Future<void> fetchAndFilterGroupData() async {
-    const String url =
-        'https://admin.tournamyx.com/api/iiumrc/soccer-primary/tournament/groups';
+    if (favoriteTeamData.isEmpty || favoriteTeamData['teamCategory'] == null) {
+      print('Favorite team data not available yet');
+      return;
+    }
     try {
+      final String category = favoriteTeamData['teamCategory'];
+      final String url =
+          'https://admin.tournamyx.com/api/iiumrc/$category/tournament/groups';
+
+      print('Requesting URL: $url'); //
       final response = await http.get(Uri.parse(url));
       if (response.statusCode == 200) {
         final data = json.decode(response.body);
@@ -77,8 +85,79 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                 throw Exception('Group containing favorite team not found'),
           );
           print('Favorite team found in group ${selectedGroup?.groupId}');
+          fetchAndFilterFavTeamSchedule();
           return;
         });
+      } else {
+        print('Failed to load data');
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
+  }
+
+  Future<void> fetchAndFilterFavTeamSchedule() async {
+    if (favoriteTeamData.isEmpty ||
+        favoriteTeamData['teamCategory'] == null ||
+        selectedGroup?.groupId == null) {
+      print('Required data not available');
+      return;
+    }
+
+    try {
+      final String category = favoriteTeamData['teamCategory'];
+      final String favoriteTeamId = favoriteTeamData['teamID'];
+      final String? groupId = selectedGroup?.groupId;
+      final String url =
+          'https://admin.tournamyx.com/api/iiumrc/$category/tournament/schedules';
+
+      print('Requesting URL for schedules: $url');
+      final response = await http.get(Uri.parse(url));
+
+      if (response.statusCode == 200) {
+        final data = json.decode(response.body);
+
+        if (data['groupSchedules'] is! List) {
+          print('groupSchedules is not a List');
+          return;
+        }
+
+        final List<dynamic> groupSchedules = data['groupSchedules'];
+
+        for (var group in groupSchedules) {
+          print('Group structure: $group');
+
+          if (group.isNotEmpty && group is List && group[0] is Map) {
+            for (var game in group) {
+              // Add a null check for game
+              if (game == null) {
+                print('Game is null, skipping...');
+                continue; // Skip to the next iteration if game is null
+              }
+
+              print('Game: $game');
+              if (game['redTeam'] == favoriteTeamId ||
+                  game['blueTeam'] == favoriteTeamId) {
+                // Found a game involving the favorite team
+                print(
+                    'Found favorite team in game: ${game['gameId']} within group');
+                setState(() {
+                  var existingGameIndex = favTeamSchedule.indexWhere(
+                      (element) => element['gameId'] == game['gameId']);
+
+                  if (existingGameIndex == -1) {
+                    favTeamSchedule.add(game);
+                  } else {
+                    favTeamSchedule[existingGameIndex] = game;
+                  }
+                });
+              }
+            }
+          }
+        }
+
+        // Process or store the favTeamSchedule list as needed
+        print('Favorite team schedule: $favTeamSchedule');
       } else {
         print('Failed to load data');
       }
@@ -126,10 +205,7 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
           builder: (context, constraints) {
             return RefreshIndicator(
                 color: TournamyxTheme.primary,
-                onRefresh: () async {
-                  fetchAndUpdateData;
-                  fetchAndFilterGroupData;
-                },
+                onRefresh: fetchAndUpdateData,
                 child: SingleChildScrollView(
                   physics: const AlwaysScrollableScrollPhysics(),
                   child: Column(
@@ -165,7 +241,15 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Team 1 Name',
+                              favTeamSchedule.isNotEmpty
+                                  ? favTeamSchedule[0]['redTeam']
+                                  : 'Loading...',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              '0',
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -177,7 +261,15 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               ),
                             ),
                             Text(
-                              'Team 2 Name',
+                              '0',
+                              style: TextStyle(
+                                fontSize: 14,
+                              ),
+                            ),
+                            Text(
+                              favTeamSchedule.isNotEmpty
+                                  ? favTeamSchedule[0]['blueTeam']
+                                  : 'Loading...',
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -216,7 +308,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                           mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             Text(
-                              'Team 1 Name',
+                              favTeamSchedule.isNotEmpty
+                                  ? favTeamSchedule[1]['redTeam']
+                                  : 'Loading...',
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -241,7 +335,9 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                               ),
                             ),
                             Text(
-                              'Team 2 Name',
+                              favTeamSchedule.isNotEmpty
+                                  ? favTeamSchedule[1]['blueTeam']
+                                  : 'Loading...',
                               style: TextStyle(
                                 fontSize: 14,
                               ),
@@ -253,22 +349,33 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
                       Container(
                         margin: EdgeInsets.only(
                             right: 10.0), // Add your desired margin here
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.end,
-                          children: [
-                            Text(
-                              'View All Match',
-                              style: TextStyle(
-                                fontSize: 14,
-                                fontWeight: FontWeight.bold,
+                        child: InkWell(
+                          onTap: () {
+                            Navigator.push(
+                              context,
+                              MaterialPageRoute(
+                                builder: (context) => AllMatchPage(
+                                    favTeamSchedule: favTeamSchedule),
                               ),
-                            ),
-                            SizedBox(width: 5),
-                            Icon(
-                              Ionicons.arrow_forward,
-                              size: 15,
-                            ),
-                          ],
+                            );
+                          },
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.end,
+                            children: [
+                              Text(
+                                'View All Match',
+                                style: TextStyle(
+                                  fontSize: 14,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                              SizedBox(width: 5),
+                              Icon(
+                                Ionicons.arrow_forward,
+                                size: 15,
+                              ),
+                            ],
+                          ),
                         ),
                       ),
                       SizedBox(height: 20),

@@ -48,18 +48,21 @@ class _MyAppState extends State<MyApp> {
   @override
   void initState() {
     super.initState();
-    FirebaseAuth.instance.authStateChanges().listen((User? user) {
+    _sub = FirebaseAuth.instance.authStateChanges().listen((User? user) {
       if (user != null) {
         print("User already signed in : ${user.displayName}");
+        navigatorKey.currentState?.pushReplacementNamed('/home');
+      } else {
+        print("User not signed in");
       }
     });
   }
 
-  // @override
-  // void dispose() {
-  //   _sub.cancel();
-  //   super.dispose();
-  // }
+  @override
+  void dispose() {
+    _sub.cancel();
+    super.dispose();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -122,6 +125,7 @@ class _MyAppState extends State<MyApp> {
       routes: {
         //   '/welcome': (context) => const WelcomeScreen(),
         '/register': (context) => const RegisterScreen(),
+        '/home': (context) => const MyxBottomNavbar(),
         '/login': (context) => LoginScreen(),
         '/favourite': (context) => const FavouriteScreen(),
         '/change-password': (context) => const ChangePasswordScreen(),
