@@ -7,6 +7,7 @@ import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
 import 'package:tournamyx_mobile/features/profile/screen/profile_screen.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page.dart';
 
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
@@ -50,6 +51,12 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       icon: const Icon(Icons.home),
       iconOutline: const Icon(Icons.home_outlined),
       screen: const HomeScreen(),
+    ),
+    BottomBarItem(
+      label: 'Tournament',
+      icon: const Icon(Ionicons.trophy),
+      iconOutline: const Icon(Ionicons.trophy_outline),
+      screen: const TourScreen(),
     ),
     BottomBarItem(
       label: 'Favourite',
