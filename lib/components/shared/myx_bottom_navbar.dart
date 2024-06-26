@@ -6,7 +6,7 @@ import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
-import 'package:tournamyx_mobile/features/settings/screen/settings.dart';
+import 'package:tournamyx_mobile/features/profile/screen/profile_screen.dart';
 
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
@@ -58,10 +58,10 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
       screen: const FavouriteScreen(),
     ),
     BottomBarItem(
-      label: 'Settings',
-      icon: const Icon(Ionicons.settings),
-      iconOutline: const Icon(Ionicons.settings_outline),
-      screen: const SettingsScreen(),
+      label: 'Profile',
+      icon: const Icon(Ionicons.person),
+      iconOutline: const Icon(Ionicons.person_outline),
+      screen: const ProfileScreen(),
     ),
   ];
 
