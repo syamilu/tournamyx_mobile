@@ -12,7 +12,7 @@ class TourPageDetails extends StatelessWidget {
         title: const Text("Tournamyx"),
         centerTitle: true,
       ),
-      body: SingleChildScrollView(
+      body: const SingleChildScrollView(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
