@@ -50,7 +50,7 @@ class _TourPageDetailsState extends State<TourPageDetails> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: const Text("Tournament Standings"),
+        title: const Text("Tournament Details"),
         centerTitle: true,
       ),
       body: SingleChildScrollView(

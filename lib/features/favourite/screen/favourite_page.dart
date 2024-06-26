@@ -1,6 +1,7 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
+import 'package:tournamyx_mobile/features/favourite/services/delete_favteam.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 import 'package:tournamyx_mobile/features/favourite/model/favourite_model.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -169,11 +170,54 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
     }
   }
 
+  Future<void> _tryDeleteFavoriteTeam() async {
+    bool success = await deleteFavoriteTeam();
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Favorite team deleted successfully.')),
+      );
+
+      setState(() {
+        favoriteTeamData = {}; // Resetting to an empty map
+        leagueData = null; // Resetting nullable type to null
+        selectedGroup = null; // Resetting nullable type to null
+        favTeamSchedule = []; // Resetting to an empty list
+        favoriteTeamAvailable = false; // Resetting boolean to its initial value
+      });
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to deleted favorite team.')),
+      );
+    }
+    fetchAndUpdateData();
+  }
+
   @override
   Widget build(BuildContext context) {
     if (!favoriteTeamAvailable) {
-      return const Center(
-        child: Text('Add team to favourite'),
+      return RefreshIndicator(
+        onRefresh: fetchAndUpdateData,
+        child: SingleChildScrollView(
+          child: ConstrainedBox(
+            constraints: BoxConstraints(
+              minHeight: MediaQuery.of(context).size.height,
+            ),
+            child: IntrinsicHeight(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.all(20.0),
+                    child: Text(
+                      'Uh-oh no team added to favourite yet, please proceed to tournament page to add.',
+                      textAlign: TextAlign.center,
+                    ),
+                  ),
+                ],
+              ),
+            ),
+          ),
+        ),
       );
     }
 
@@ -209,6 +253,32 @@ class _FavouriteScreenState extends State<FavouriteScreen> {
               ),
             ],
           ),
+          actions: <Widget>[
+            Padding(
+              padding: const EdgeInsets.only(top: 14.0, right: 8.0),
+              child: IconButton(
+                icon: Icon(Ionicons.heart_dislike_outline),
+                onPressed: () {
+                  showDialog(
+                    context: context,
+                    builder: (BuildContext context) {
+                      return SimpleDialog(
+                        children: <Widget>[
+                          SimpleDialogOption(
+                            onPressed: () {
+                              Navigator.pop(context);
+                              _tryDeleteFavoriteTeam();
+                            },
+                            child: const Text('Add to Favorites'),
+                          ),
+                        ],
+                      );
+                    },
+                  );
+                },
+              ),
+            ),
+          ],
         ),
         body: LayoutBuilder(
           builder: (context, constraints) {

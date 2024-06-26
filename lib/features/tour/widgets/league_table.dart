@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
+import 'package:ionicons/ionicons.dart';
 import 'dart:convert';
 import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
 import 'package:tournamyx_mobile/features/tour/model/team_and_group_model.dart';
+import 'package:tournamyx_mobile/features/tour/services/add_favteam.dart';
 
 class GroupsPage extends StatefulWidget {
   final String categoryValue;
@@ -69,6 +71,21 @@ class _GroupsPageState extends State<GroupsPage> {
     }
   }
 
+  // Assuming this is inside a StatefulWidget
+  Future<void> _tryUpdateFavoriteTeam(
+      String? teamId, String category, String? teamName) async {
+    bool success = await updateFavoriteTeam(teamId, category, teamName);
+    if (success) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Favorite team updated successfully.')),
+      );
+    } else {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to update favorite team.')),
+      );
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     if (isLoading) {
@@ -103,6 +120,29 @@ class _GroupsPageState extends State<GroupsPage> {
             DataCell(Text(team.goalsScored?.toString() ?? '0')),
             DataCell(Text(team.goalsConceded?.toString() ?? '0')),
             DataCell(Text(team.rank?.toString() ?? '0')),
+            DataCell(IconButton(
+              icon: Icon(Ionicons.ellipsis_vertical),
+              onPressed: () {
+                showDialog(
+                  context: context,
+                  builder: (BuildContext context) {
+                    return SimpleDialog(
+                      children: <Widget>[
+                        SimpleDialogOption(
+                          onPressed: () {
+                            Navigator.pop(context);
+                            _tryUpdateFavoriteTeam(
+                                team.id, widget.categoryValue, team.name);
+                            print('Team ID: ${team.id}');
+                          },
+                          child: const Text('Add to Favorites'),
+                        ),
+                      ],
+                    );
+                  },
+                );
+              },
+            )),
           ]);
         }).toList() ??
         [];
@@ -138,7 +178,8 @@ class _GroupsPageState extends State<GroupsPage> {
                   DataColumn(label: Text('P')),
                   DataColumn(label: Text('GS')),
                   DataColumn(label: Text('GC')),
-                  DataColumn(label: Text('Rank')),
+                  DataColumn(label: Text('Pos')),
+                  DataColumn(label: Text('')),
                 ],
                 rows: rows,
               ),
