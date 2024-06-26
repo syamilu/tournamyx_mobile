@@ -3,6 +3,7 @@
 import 'package:flutter/material.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
+import 'package:tournamyx_mobile/features/profile/screen/profile_card.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -25,15 +26,27 @@ class _ProfileScreenState extends State<ProfileScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        title: const Text('Settings'),
-      ),
-      body: Center(
-        child: ElevatedButton(
-          onPressed: _signOut,
-          child: const Text('Sign Out'),
+        appBar: AppBar(
+          title: const Text('Settings'),
         ),
-      ),
-    );
+        body: SingleChildScrollView(
+            child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Column(
+            children: [
+              const ProfileCard(),
+              const SizedBox(height: 16.0),
+              ElevatedButton(
+                  onPressed: () {
+                    Navigator.pushNamed(context, '/change-password');
+                  },
+                  child: const Text('Change Password')),
+              ElevatedButton(
+                onPressed: _signOut,
+                child: const Text('Sign Out'),
+              ),
+            ],
+          ),
+        )));
   }
 }

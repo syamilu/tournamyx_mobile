@@ -6,7 +6,7 @@ import 'package:tournamyx_mobile/features/auth/screen/login.dart';
 
 import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
 import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
-import 'package:tournamyx_mobile/features/profile/screen/profile.dart';
+import 'package:tournamyx_mobile/features/profile/screen/profile_screen.dart';
 
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
