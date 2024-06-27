@@ -27,39 +27,46 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 - Screen Navigation:
   - Authentication:
     - Login page
-      
+      <br><br>
       <img src="screenshot/login_page.png" width="200" height="500" />
-
+<br><br>
     - Register page
-
+<br><br>
       <img src="screenshot/register_page.png" width="200" height="500" />
-
+<br><br>
   - Favourite:
     - Favourite page
-   
+   <br><br>
     <img src="screenshot/fav_page.png" width="200" height="500" />
-  
+  <br><br>
     - All Match page
 
 
   - Profile:
     - Profile page
-   
+   <br><br>
     <img src="screenshot/profile_page.png" width="200" height="500" />
-  
+  <br><br>
     - Change password page
-   
+   <br><br>
     <img src="screenshot/change_pass.png" width="200" height="500" />
+  <br><br>
 
   - Tournament:
     - Tournament page
-
+      - This page displays the list of the tournaments that are currently held and will be held.
+      - We plan in the future to so the user will add their own tournament.
+      - In the card there's an arrow that will be redirected to the Tournaments Details Page.
+      - The page is as follows:
+        <br><br>
      <img src="screenshot/tournament_page.png" width="200" height="500" />
-  
+       <br><br>
+
     - Tournament Details page
-
+      - This page will display the table for categories
+    <br><br>
     <img src="screenshot/tour_detaills_page.png" width="200" height="500" />
-
+    <br><br>
 - Widgets Implementation:
   - General use:
     - Top App Bar
