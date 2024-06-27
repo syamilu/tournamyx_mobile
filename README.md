@@ -24,28 +24,43 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 6. ⁠⁠Add team to favorite
 
 ### Screen Navigation and Widgets Implementation
-Screen Navigation:
-Auth:
-- Login page
-- Register page
+- Screen Navigation:
+  - Authentication:
+    - Login page
+    - Register page
 
 
-Favourite:
-- Favourite page
-- All Match page
+  - Favourite:
+    - Favourite page
+    - All Match page
 
-Home:
-- Home page
+  - Home:
+    - Home page
 
-Profile:
-- Profile page
-- Change password page
+  - Profile:
+    - Profile page
+    - Change password page
 
-Tournament:
-- Tournament page
-- Tournament Details page
+  - Tournament:
+    - Tournament page
+    - Tournament Details page
 
+- Widgets Implementation:
+  - General use:
+    - Top App Bar
+    - Bottom Navigation Bar
+    - Loading screen
+   
+  - Favourite page:
+    - Table to view all matches from your favourite team
 
+  - Profile page:
+    - Button to change password and sign out
+   
+  - Tournament page:
+    - Categories dialog button
+    - Table for both primary and secondary
+    - Tournament Card
 
 ### Sequence Diagram
 
