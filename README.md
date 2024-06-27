@@ -3,8 +3,8 @@
 ## MAD LADS
 | Name     | Matric No           | Tasks  |
 | :------------- |:-------------| :-----|
-| Wan Muhammad Syamil bin W Mohd Yusof| 2220561 | login page, favourite team page, setup firebase, setup repo |
-| Luqman Alhakim bin Malik Arman |2211145| registration page, dashboard page, api setup and calling |
+| Wan Muhammad Syamil bin W Mohd Yusof| 2220561 | login page, favourite team page, setup firebase, setup repository |
+| Luqman Alhakim bin Malik Arman |2211145| registration page, profile page, api setup and calling, favoriting team feature |
 | Nabil bin Muhd Nordin | 2210859 | navigation bar, tournament page, tournament detail page, firestore docs and collection setup |
 
 ## Group Project : Tournamyx Mobile
@@ -58,7 +58,7 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
   
     - Tournament Details page
 
-    <img src="screenshot/tour_details_page.png" width="200" height="500" />
+    <img src="screenshot/tour_detaills_page.png" width="200" height="500" />
 
 - Widgets Implementation:
   - General use:
@@ -79,4 +79,17 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 
 ### Sequence Diagram
 
+<img src="screenshot/SD_mad.jpg" width="400" height="600" />
+
+
 ### References
+1. https://docs.flutter.dev/
+2. https://firebase.google.com/
+3. https://ionic.io/ionicons
+4. https://pub.dev/packages/http
+5. https://chatgpt.com/
+
+## Weekly Progress Report
+<img src="screenshot/weeklyprogress1.jpg" width="600" height="400" />
+
+<img src="screenshot/weeklyprogress2.jpg" width="600" height="400" />
