@@ -81,6 +81,8 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 
 <img src="screenshot/SD_mad.jpg" width="400" height="600" />
 
+<img src="screenshot/sitemap_app.png" width="1000" height="400" />
+
 
 ### References
 1. https://docs.flutter.dev/
@@ -94,4 +96,3 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 
 <img src="screenshot/weeklyprogress2.jpg" width="600" height="400" />
 
-<img src="screenshot/weeklyprogress2.jpg" width="600" height="400" />
