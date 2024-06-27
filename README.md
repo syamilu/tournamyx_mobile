@@ -27,8 +27,12 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 - Screen Navigation:
   - Authentication:
     - Login page
+      
+      <img src="screenshot/login_page.png" width="200" height="500" />
+
     - Register page
 
+      <img src="screenshot/register_page.png" width="200" height="500" />
 
   - Favourite:
     - Favourite page
