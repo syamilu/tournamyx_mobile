@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'dart:convert';
-import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
+// import 'package:tournamyx_mobile/features/tour/widgets/categories_dialog.dart';
 
 
 class Group {
@@ -158,10 +158,6 @@ class _GroupsPageState extends State<GroupsPageSecondary> {
       (group) => group.groupId == _chosenGroup,
       orElse: () => Group(groupId: _chosenGroup, teams: []),
     );
-
-    if (chosenGroup == null) {
-      return Center(child: Text("Group $_chosenGroup not found"));
-    }
 
     // Create rows for each team in the chosen group
     final rows = chosenGroup.teams?.map<DataRow>((team) {
