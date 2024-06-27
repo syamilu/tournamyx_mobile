@@ -3,10 +3,13 @@ import 'package:ionicons/ionicons.dart';
 import 'package:flutter/rendering.dart';
 
 import 'package:tournamyx_mobile/features/auth/screen/login.dart';
-import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
-import 'package:tournamyx_mobile/features/favourites/screen/favourite_page.dart';
-import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
+import 'package:tournamyx_mobile/features/favourite/screen/favourite_page.dart';
+import 'package:tournamyx_mobile/features/home/screen/home_screen.dart';
+import 'package:tournamyx_mobile/features/profile/screen/profile_screen.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page.dart';
+
+import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
 
 //type or model for bottombar
 class BottomBarItem {
@@ -43,25 +46,29 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
   }
 
   final List<BottomBarItem> _bottomBarItems = [
+    // BottomBarItem(
+    //   label: 'Home',
+    //   icon: const Icon(Icons.home),
+    //   iconOutline: const Icon(Icons.home_outlined),
+    //   screen: const HomeScreen(),
+    // ),
     BottomBarItem(
-
-      label: 'Home',
-      icon: const Icon(Icons.home),
-      iconOutline: const Icon(Icons.home_outlined),
-      screen: const HomeScreen(),
-    ),
-    BottomBarItem(
-      label: 'Login',
-      icon: const Icon(Icons.person),
-      iconOutline: const Icon(Icons.person_outlined),
-      screen: LoginScreen(),
-
+      label: 'Tournament',
+      icon: const Icon(Ionicons.trophy),
+      iconOutline: const Icon(Ionicons.trophy_outline),
+      screen: const TourScreen(),
     ),
     BottomBarItem(
       label: 'Favourite',
       icon: const Icon(Ionicons.star),
       iconOutline: const Icon(Ionicons.star_outline),
       screen: const FavouriteScreen(),
+    ),
+    BottomBarItem(
+      label: 'Profile',
+      icon: const Icon(Ionicons.person),
+      iconOutline: const Icon(Ionicons.person_outline),
+      screen: const ProfileScreen(),
     ),
   ];
 
@@ -84,7 +91,6 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
           ],
         ),
         child: BottomNavigationBar(
-          backgroundColor: TournamyxTheme.background,
           items: _bottomBarItems
               .map((e) => BottomNavigationBarItem(
                     icon: _selectedIndex == _bottomBarItems.indexOf(e)
@@ -102,60 +108,3 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
     );
   }
 }
-
-
-// //* My version of Bottom Nav Bar
-
-// class BottomAppBar extends StatefulWidget{
-//   const BottomAppBar({super.key});
-
-//   @override
-//   State createState() => _BottomAppBarState();
-// }
-
-// class _BottomAppBarState extends State <BottomAppBar> {
-//     int _selectedIndex = 0;
-//     bool _isVisible = true;
-//     ScrollController _scrollController = ScrollController();
-
-//     @override
-//     void initState() {
-//       super.initState();
-//       _scrollController.addListener((){
-//         if(_scrollController.position.userScrollDirection == ScrollDirection.reverse) {
-//           if (_isVisible == true) {
-//             setState(() {
-//               _isVisible = false;
-//             });
-//           }
-//         } else {
-//           if (_scrollController.position.userScrollDirection == ScrollDirection.forward) {
-//             if (_isVisible == false) {
-//               setState(() {
-//                 _isVisible = true;
-//               });
-//             }
-//           }
-//         }
-//       });
-//     }
-    
-//     @override
-//     void dispose() {
-//       _scrollController.dispose();
-//       super.dispose();
-//     }
-
-//     void _onItemTapped(int index) {
-//       setState(() {
-//         _selectedIndex = index;
-//       });
-//     }
-
-//     final List<Widget> _pages = [
-//       HomePage(),
-//       TourScreen(),
-//       FavouriteScreen(),
-//       SettingsPage(),
-//     ]
-// }

@@ -1,9 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/components/shared/myx_topbar.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page_details.dart';
 import 'package:tournamyx_mobile/features/tour/widgets/tour_card.dart';
+import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
+
 
 class TourScreen extends StatelessWidget {
-  const TourScreen({super.key});
+  const TourScreen({Key? key});
 
   
   @override
@@ -11,21 +14,27 @@ class TourScreen extends StatelessWidget {
     return Scaffold(
       appBar: TopBar(title: 'Tournamyx'),
       body: ListView(
-        children: const <Widget>[
+        children: [
           TourCard(
             title: "IIUM ROBOTIC COMPETITION 2024",
             subtitle: 'International Islamic University Malaysia',
-            color: Colors.blue,
+            color: TournamyxTheme.grey,
+            onTap: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(builder: (context) => const TourPageDetails()),
+                );
+            },
           ),
-          TourCard(
+          const TourCard(
             title: 'GENIUS ROBOTICS CHAMPIONSHIP', 
             subtitle: 'Universiti Teknologi Petronas',
-            color: Colors.green,
+            color: TournamyxTheme.background
           ),
-          TourCard(
+          const TourCard(
             title: 'ROBOTICS COMPETITION 2024', 
             subtitle: 'Universiti Malaya',
-            color: Colors.purple,
+            color: TournamyxTheme.grey
           ),
         ],
       ),

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:tournamyx_mobile/features/home/screen/group_fixture.dart';
 import 'package:tournamyx_mobile/features/home/screen/knockout_fixture.dart';
-import 'package:tournamyx_mobile/features/home/screen/profile_card.dart';
+import 'package:tournamyx_mobile/features/profile/screen/profile_card.dart';
 import 'package:tournamyx_mobile/features/home/screen/tournament_card.dart';
 
 class HomeScreen extends StatelessWidget {

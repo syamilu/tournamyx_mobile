@@ -1,26 +1,109 @@
 //package imports
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:ionicons/ionicons.dart';
 
 //local imports
 import 'package:tournamyx_mobile/components/auth/button.dart';
 import 'package:tournamyx_mobile/components/auth/text_field.dart';
+import 'package:tournamyx_mobile/components/shared/myx_bottom_navbar.dart';
 import 'package:tournamyx_mobile/utils/theme/tournamyx_theme.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
   LoginScreen({super.key});
 
+  @override
+  State<LoginScreen> createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
   final passwordController = TextEditingController();
   final emailController = TextEditingController();
-
   final _formKey = GlobalKey<FormState>();
 
-  void signUserIn() {
-    //TODO: implement auth
-    if (_formKey.currentState!.validate()) {
-      print('User signed in');
+  @override
+  void initState() {
+    super.initState();
+    checkCurrentUser();
+  }
+
+  @override
+  void dispose() {
+    passwordController.dispose();
+    emailController.dispose();
+    super.dispose();
+  }
+
+  void checkCurrentUser() async {
+    final user = FirebaseAuth.instance.currentUser;
+    if (user != null) {
+      print('User already signed in: ${user.email}');
+      // Handle this case - maybe navigate to home or sign out the user
     } else {
-      print('User not signed in');
+      print('No user currently signed in');
+    }
+  }
+
+  Future<void> signUserIn() async {
+    print('Signing user in');
+    if (_formKey.currentState!.validate()) {
+      print('Form validated');
+      showDialog(
+        context: context,
+        barrierDismissible: false,
+        builder: (context) {
+          print('Showing loading indicator');
+          return const Center(child: CircularProgressIndicator());
+        },
+      );
+
+      try {
+        print('Preparing to sign in with Firebase');
+        print('Email: ${emailController.text}');
+        print('Password length: ${passwordController.text.length}');
+
+        final credential = await FirebaseAuth.instance
+            .signInWithEmailAndPassword(
+          email: emailController.text,
+          password: passwordController.text,
+        )
+            .timeout(Duration(seconds: 30), onTimeout: () {
+          throw TimeoutException('Sign in timed out');
+        });
+
+        print('Firebase sign in completed');
+
+        Navigator.of(context).pop(); // Close loading indicator
+
+        if (credential.user != null) {
+          print('User signed in successfully, navigating to home');
+          Navigator.of(context).pushReplacementNamed('/home');
+        } else {
+          print('Credential user is null');
+        }
+      } on FirebaseAuthException catch (e) {
+        print('FirebaseAuthException: ${e.message}');
+        Navigator.of(context).pop(); // Close loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text(e.message ?? 'An error occurred')),
+        );
+      } on TimeoutException catch (e) {
+        print('Timeout: $e');
+        Navigator.of(context).pop(); // Close loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('Sign in timed out. Please try again.')),
+        );
+      } catch (e) {
+        print('Unexpected error: $e');
+        Navigator.of(context).pop(); // Close loading indicator
+        ScaffoldMessenger.of(context).showSnackBar(
+          SnackBar(content: Text('An unexpected error occurred')),
+        );
+      }
+    } else {
+      print('Form is not valid');
     }
   }
 
@@ -46,21 +129,20 @@ class LoginScreen extends StatelessWidget {
                   fit: BoxFit.cover,
                 ),
               ),
-
               Column(
                 children: [
-                  SizedBox(height: MediaQuery.of(context).size.height * 0.07),
-                  Align(
-                    alignment: Alignment.topLeft,
-                    child: IconButton(
-                      padding: const EdgeInsets.only(left: 25.0),
-                      icon: const Icon(Icons.arrow_back_ios),
-                      color: TournamyxTheme.primary,
-                      onPressed: () {
-                        Navigator.pop(context);
-                      },
-                    ),
-                  ),
+                  SizedBox(height: MediaQuery.of(context).size.height * 0.12),
+                  // Align(
+                  //   alignment: Alignment.topLeft,
+                  //   child: IconButton(
+                  //     padding: const EdgeInsets.only(left: 25.0),
+                  //     icon: const Icon(Icons.arrow_back_ios),
+                  //     color: TournamyxTheme.primary,
+                  //     onPressed: () {
+                  //       Navigator.pop(context);
+                  //     },
+                  //   ),
+                  // ),
                   SizedBox(height: MediaQuery.of(context).size.height * 0.04),
                   const Text(
                     "Welcome back to Tournamyx!",
@@ -113,15 +195,18 @@ class LoginScreen extends StatelessWidget {
                           SizedBox(
                               height:
                                   MediaQuery.of(context).size.height * 0.03),
-                          MyButtonLogin(
-                            text: "Login",
-                            onTap: () {
-                              // Navigator.push(
-                              //     context,
-                              //     MaterialPageRoute(
-                              //         builder: (context) => LoginPage())
-                              //         );
-                            },
+                          ElevatedButton(
+                            onPressed: signUserIn,
+                            child: const Text('Login',
+                                style: TextStyle(color: Colors.white)),
+                            style: ElevatedButton.styleFrom(
+                              backgroundColor: TournamyxTheme.primary,
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 130, vertical: 15),
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(5),
+                              ),
+                            ),
                           ),
                           const SizedBox(height: 20),
                           const Text('Forgot Password?',
@@ -196,11 +281,7 @@ class LoginScreen extends StatelessWidget {
                         ),
                         TextButton(
                           onPressed: () {
-                            // Navigator.push(
-                            //     context,
-                            //     MaterialPageRoute(
-                            //         builder: (context) => RegisterPage())
-                            //         );
+                            Navigator.pushNamed(context, '/register');
                           },
                           child: const Text(
                             "Sign Up",

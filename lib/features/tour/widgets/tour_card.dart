@@ -1,35 +1,59 @@
 import 'package:flutter/material.dart';
+import 'package:tournamyx_mobile/features/tour/page/tour_page_details.dart';
+
 
 class TourCard extends StatelessWidget {
   final String title;
   final String subtitle;
   final Color color;
-  
+  final VoidCallback? onTap;
 
-  const TourCard({required this.title, required this.subtitle, required this.color});
+  const TourCard({
+    super.key,
+    required this.title,
+    required this.subtitle,
+    required this.color,
+    this.onTap,
+  });
 
   @override
   Widget build(BuildContext context) {
     return Card(
       color: color,
-      margin: EdgeInsets.all(10),
-      child: Padding(
-        padding: const EdgeInsets.all(16.0),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: <Widget>[
-            Text(
-              title,
-              style: TextStyle(color: Colors.white, fontSize: 18, fontWeight: FontWeight.bold),
-            ),
-            SizedBox(height: 10),
-            Text(
-              subtitle,
-              style: TextStyle(color: Colors.white, fontSize: 14),
-            ),
-          ],
+      child: InkWell(
+        onTap: () {
+          Navigator.push(
+            context,
+            MaterialPageRoute(builder: (context) => const TourPageDetails()),
+          );
+          // Navigate to the tour details page
+        },
+        child: Padding(
+          padding: const EdgeInsets.all(16.0),
+          child: Row(
+            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+            children: [
+              Expanded(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    Text(
+                      title,
+                      style: const TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
+                    ),
+                    const SizedBox(height: 4),
+                    Text(
+                      subtitle,
+                      style: const TextStyle(fontSize: 16),
+                    ),
+                  ],
+                ),
+              ),
+              const Icon(Icons.arrow_forward_ios, color: Colors.white),
+            ],
+          ),
         ),
       ),
     );
   }
-  }
+}
