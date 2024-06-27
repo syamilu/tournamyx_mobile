@@ -16,6 +16,12 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 3. Facilitate competition management
 
 ### Features and functionalities
+1. Firebase authentication
+2. ⁠Change password
+3. ⁠⁠Display all tournaments
+4. ⁠⁠Select categories
+5. ⁠⁠Display scores for teams by group in table view
+6. ⁠⁠Add team to favorite
 
 ### Screen Navigation and Widgets Implementation
 
