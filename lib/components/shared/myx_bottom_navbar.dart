@@ -46,12 +46,12 @@ class _MyxBottomNavbarState extends State<MyxBottomNavbar> {
   }
 
   final List<BottomBarItem> _bottomBarItems = [
-    BottomBarItem(
-      label: 'Home',
-      icon: const Icon(Icons.home),
-      iconOutline: const Icon(Icons.home_outlined),
-      screen: const HomeScreen(),
-    ),
+    // BottomBarItem(
+    //   label: 'Home',
+    //   icon: const Icon(Icons.home),
+    //   iconOutline: const Icon(Icons.home_outlined),
+    //   screen: const HomeScreen(),
+    // ),
     BottomBarItem(
       label: 'Tournament',
       icon: const Icon(Ionicons.trophy),
