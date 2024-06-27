@@ -63,7 +63,18 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
        <br><br>
 
     - Tournament Details page
-      - This page will display the table for categories
+      - This page will display the table for categories for this specific tournament named "IIUM Robotic Competition 2024"
+      - As for this case, we will have a button that will popup a dialog that let the user choose the categories. For this case which will be "Soccer Primary" and "Soccer Secondary".
+      - By default, it will show the table for "Soccer Memory".
+      - In the table it will show stats of the tournaments in their respective groups which will be based on:
+        - Team Name
+        - Wins
+        - Draws
+        - Losses
+        - Points
+        - Goals Success
+        - Goals Conceded
+
     <br><br>
     <img src="screenshot/tour_detaills_page.png" width="200" height="500" />
     <br><br>
