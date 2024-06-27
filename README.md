@@ -54,9 +54,11 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
   - Tournament:
     - Tournament page
 
-     <img src="screenshot/register_page.png" width="200" height="500" />
+     <img src="screenshot/tournament_page.png" width="200" height="500" />
   
     - Tournament Details page
+
+    <img src="screenshot/tour_details_page.png" width="200" height="500" />
 
 - Widgets Implementation:
   - General use:
