@@ -32,6 +32,7 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
       <br><br>
       <img src="screenshot/login_page.png" width="200" height="500" />
 <br><br>
+    
     - Register page :
       - User can register using email and password.
       - They also need to provide username
@@ -88,19 +89,27 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 - Widgets Implementation:
   - General use:
     - Top App Bar
+      - To display current page title
     - Bottom Navigation Bar
+      - To navigate between each main page 
     - Loading screen
+      - Displayed when data fetching is not finish 
    
   - Favourite page:
     - Table to view all matches from your favourite team
+      - Show the leaderboard of the user's favourite team 
 
   - Profile page:
     - Button to change password and sign out
+      - Reusable button widget
    
   - Tournament page:
     - Categories dialog button
+      - To select between different category and different table
     - Table for both primary and secondary
+      - Display leaderboard for current category and team selected
     - Tournament Card
+      - Show current tournament available  
 
 ### Sequence Diagram
 
