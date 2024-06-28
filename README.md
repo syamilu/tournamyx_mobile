@@ -26,21 +26,19 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 ### Screen Navigation and Widgets Implementation
 - Screen Navigation:
   - Authentication:
-    - Login page
+    - Login page : First page displayed when user enter the apps
       <br><br>
       <img src="screenshot/login_page.png" width="200" height="500" />
 <br><br>
-    - Register page
+    - Register page : User can register using email and password. They also need to provide username
 <br><br>
       <img src="screenshot/register_page.png" width="200" height="500" />
 <br><br>
   - Favourite:
-    - Favourite page
+    - Favourite page : This page display user's favorite team. Their leaderboard and match.
    <br><br>
     <img src="screenshot/fav_page.png" width="200" height="500" />
   <br><br>
-    - All Match page
-
 
   - Profile:
     - Profile page
