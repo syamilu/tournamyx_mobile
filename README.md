@@ -26,26 +26,35 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 ### Screen Navigation and Widgets Implementation
 - Screen Navigation:
   - Authentication:
-    - Login page : First page displayed when user enter the apps
+    - Login page :
+      - First page displayed when user enter the apps
+      - User need to enter correct email and password to login
       <br><br>
       <img src="screenshot/login_page.png" width="200" height="500" />
 <br><br>
-    - Register page : User can register using email and password. They also need to provide username
+    - Register page :
+      - User can register using email and password.
+      - They also need to provide username
 <br><br>
       <img src="screenshot/register_page.png" width="200" height="500" />
 <br><br>
   - Favourite:
-    - Favourite page : This page display user's favorite team. Their leaderboard and match.
+    - Favourite page :
+      - This page display user's favorite team.
+      - Their leaderboard and upcoming match.
+      - The team also highlighted inside the leaderboard.
    <br><br>
     <img src="screenshot/fav_page.png" width="200" height="500" />
   <br><br>
 
   - Profile:
-    - Profile page
+    - Profile page :
+      - User profile page, user can sign out or change password here
    <br><br>
     <img src="screenshot/profile_page.png" width="200" height="500" />
   <br><br>
-    - Change password page
+    - Change password page :
+      - User input new password to change
    <br><br>
     <img src="screenshot/change_pass.png" width="200" height="500" />
   <br><br>
@@ -99,13 +108,17 @@ Tournamyx Mobile is a application designed for participants and spectators of ro
 
 <img src="screenshot/sitemap_app.png" width="1000" height="400" />
 
+### Plugin and Packages
+1. Dart http packages
+2. Ionicons packages
+3. Firebase Firestore
 
 ### References
-1. https://docs.flutter.dev/
-2. https://firebase.google.com/
-3. https://ionic.io/ionicons
-4. https://pub.dev/packages/http
-5. https://chatgpt.com/
+1. Flutter. (n.d.). Flutter documentation. Docs.flutter.dev. https://docs.flutter.dev/
+2. Google. (2023). Firebase. Firebase. https://firebase.google.com/
+3. Ionic. (n.d.). Ionicons: The premium icon pack for Ionic Framework. Ionic.io. https://ionic.io/ionicons
+4. http | Dart Package. (n.d.). Dart Packages. https://pub.dev/packages/http
+5. Flutter - Read and Write Data on Firebase. (2020, November 8). GeeksforGeeks. https://www.geeksforgeeks.org/flutter-read-and-write-data-on-firebase/
 
 ## Weekly Progress Report
 <img src="screenshot/weeklyprogress1.jpg" width="600" height="400" />
